@@ -1,0 +1,787 @@
+/* =====================================
+   LOGICORE - AYUDA
+   (usa la base de inventario.css)
+===================================== */
+
+.ayuda-indice {
+    display: flex;
+    gap: 8px;
+}
+
+.ayuda-indice a {
+    background-color: white;
+    border: 2px solid var(--primario);
+    color: var(--primario);
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.ayuda-indice a:hover {
+    background-color: var(--primario-suave);
+}
+
+
+/* SECCIONES */
+
+.ayuda-seccion {
+    background-color: white;
+    border: 1px solid var(--borde);
+    box-shadow: var(--sombra);
+    padding: 16px;
+    margin-bottom: 14px;
+    scroll-margin-top: 14px;
+}
+
+.ayuda-encabezado {
+    border-bottom: 1px solid var(--borde-suave);
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+}
+
+.ayuda-encabezado p {
+    color: var(--primario);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.ayuda-encabezado h3 {
+    font-size: 17px;
+}
+
+.ayuda h4 {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.ayuda h4 a {
+    color: var(--primario);
+    text-decoration: none;
+}
+
+.ayuda h4 a:hover {
+    text-decoration: underline;
+}
+
+
+/* MODULOS */
+
+.ayuda-grilla {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.ayuda-grilla article {
+    border: 1px solid var(--borde);
+    padding: 12px;
+}
+
+.ayuda-grilla p,
+.ayuda-grilla li,
+.ayuda-texto,
+.ayuda-lista li,
+.ayuda-estados li {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--texto);
+}
+
+.ayuda-grilla ul {
+    list-style: none;
+}
+
+.ayuda-grilla li + li {
+    margin-top: 6px;
+}
+
+
+/* DOS COLUMNAS */
+
+.ayuda-columnas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.ayuda-texto {
+    margin-bottom: 14px;
+}
+
+.ayuda-lista,
+.ayuda-estados {
+    list-style: none;
+}
+
+.ayuda-lista li,
+.ayuda-estados li {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--borde-suave);
+}
+
+.ayuda-lista li:last-child,
+.ayuda-estados li:last-child {
+    border-bottom: none;
+}
+
+.ayuda-estados .estado {
+    min-width: 86px;
+    text-align: center;
+    margin-right: 8px;
+}
+
+.ayuda code {
+    background-color: var(--fondo);
+    padding: 1px 5px;
+    font-size: 12px;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 950px) {
+
+    .ayuda-grilla {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    .ayuda-grilla,
+    .ayuda-columnas {
+        grid-template-columns: 1fr;
+    }
+
+    .ayuda-indice {
+        flex-wrap: wrap;
+    }
+
+}
+
+
+/* =====================================
+   ESTADOS DEL STOCK (dentro de Ayuda)
+===================================== */
+
+.ayuda-estados-titulo {
+    margin-top: 18px;
+}
+
+.ayuda-estados.en-fila {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.ayuda-estados.en-fila li {
+    border: 1px solid var(--borde-suave);
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.ayuda-estados.en-fila li:last-child {
+    border-bottom: 1px solid var(--borde-suave);
+}
+
+
+/* =====================================
+   INFORMACION: PRESENTACION COMERCIAL
+===================================== */
+
+.venta {
+    padding: 0;
+    overflow: hidden;
+}
+
+.venta-portada {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 32px;
+    align-items: center;
+    padding: 36px 36px 32px;
+    background: linear-gradient(135deg, var(--marino) 0%, var(--marino-claro) 60%, var(--primario) 140%);
+    color: #ffffff;
+}
+
+.venta-etiqueta {
+    color: #93c5fd;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+}
+
+.venta-mensaje h3 {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 12px;
+}
+
+.venta-mensaje p:not(.venta-etiqueta) {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #d6e2ee;
+    max-width: 560px;
+    margin-bottom: 22px;
+}
+
+.venta-boton {
+    display: inline-block;
+    background-color: #ffffff;
+    color: var(--marino);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 12px 22px;
+    border-radius: 10px;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.venta-boton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.venta-cifras {
+    list-style: none;
+    display: grid;
+    gap: 12px;
+}
+
+.venta-cifras li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 12px 16px;
+}
+
+.venta-cifras strong {
+    min-width: 72px;
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.venta-cifras span {
+    font-size: 13px;
+    line-height: 1.4;
+    color: #d6e2ee;
+}
+
+
+/* BENEFICIOS */
+
+.venta-subtitulo {
+    padding: 26px 36px 0;
+    font-size: 18px !important;
+}
+
+.venta-beneficios {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    padding: 14px 36px 8px;
+}
+
+.venta-beneficios article {
+    border: 1px solid var(--borde-suave);
+    border-radius: 12px;
+    padding: 18px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.venta-beneficios article:hover {
+    border-color: var(--primario);
+    box-shadow: var(--sombra);
+}
+
+.venta-icono {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background-color: var(--primario-suave);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.venta-icono svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: var(--primario);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.venta-beneficios h5 {
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.venta-beneficios p {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--texto-suave);
+}
+
+
+/* IDEAL PARA / TECNOLOGIA */
+
+.venta-pie {
+    padding: 18px 36px 30px;
+}
+
+.venta-negocios {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.venta-negocios li {
+    background-color: var(--fondo);
+    border: 1px solid var(--borde-suave);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+
+@media (max-width: 950px) {
+
+    .venta-portada {
+        grid-template-columns: 1fr;
+    }
+
+    .venta-beneficios {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    .venta-portada,
+    .venta-subtitulo,
+    .venta-beneficios,
+    .venta-pie {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .venta-mensaje h3 {
+        font-size: 24px;
+    }
+
+    .venta-beneficios,
+    .ayuda-estados.en-fila {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =====================================
+   CONTACTO
+===================================== */
+
+.contacto {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 28px;
+    align-items: center;
+}
+
+.contacto-persona {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+    align-items: center;
+}
+
+.contacto-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--marino), var(--primario));
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contacto-persona h4 {
+    font-size: 20px !important;
+    margin-bottom: 2px !important;
+}
+
+.contacto-cargo {
+    color: var(--primario);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.contacto-texto,
+.contacto-ubicacion {
+    grid-column: 1 / -1;
+}
+
+.contacto-texto {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--texto-suave);
+}
+
+.contacto-ubicacion {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.contacto-ubicacion svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: var(--primario);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* BOTONES DE CONTACTO */
+
+.contacto-medios {
+    display: grid;
+    gap: 10px;
+}
+
+.contacto-medio {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border: 1px solid var(--borde-suave);
+    border-radius: 12px;
+    color: var(--texto);
+    text-decoration: none;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+
+.contacto-medio:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--sombra);
+}
+
+.contacto-medio strong {
+    display: block;
+    font-size: 15px;
+}
+
+.contacto-medio small {
+    font-size: 13px;
+    color: var(--texto-suave);
+    word-break: break-all;
+}
+
+.contacto-medio em {
+    font-style: normal;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 8px;
+    color: #ffffff;
+}
+
+.contacto-icono {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contacto-icono svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Cada medio con su color reconocible */
+.whatsapp .contacto-icono,
+.whatsapp em {
+    background-color: #25d366;
+}
+
+.whatsapp:hover {
+    border-color: #25d366;
+}
+
+.correo .contacto-icono,
+.correo em {
+    background-color: var(--primario);
+}
+
+.correo:hover {
+    border-color: var(--primario);
+}
+
+.telefono .contacto-icono,
+.telefono em {
+    background-color: var(--marino);
+}
+
+.telefono:hover {
+    border-color: var(--marino);
+}
+
+
+@media (max-width: 950px) {
+
+    .contacto {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 450px) {
+
+    .contacto-medio em {
+        display: none;
+    }
+
+}
+
+
+/* =====================================
+   AYUDA: MODULOS, PREGUNTAS Y ESTADOS
+===================================== */
+
+.modulos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 14px;
+}
+
+.modulo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid var(--borde-suave);
+    border-radius: 14px;
+    color: var(--texto);
+    text-decoration: none;
+    overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+
+/* Franja de color arriba de cada tarjeta */
+.modulo::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background-color: var(--color);
+}
+
+.modulo:hover {
+    transform: translateY(-3px);
+    border-color: var(--color);
+    box-shadow: 0 10px 24px rgba(16, 36, 58, 0.1);
+}
+
+.modulo-icono {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background-color: var(--suave);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+}
+
+.modulo-icono svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: var(--color);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.modulo h4 {
+    font-size: 17px !important;
+    margin-bottom: 6px !important;
+}
+
+.modulo p {
+    flex: 1;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--texto-suave);
+    margin-bottom: 14px;
+}
+
+.modulo p strong {
+    color: var(--texto);
+}
+
+.modulo-ir {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color);
+}
+
+
+/* PREGUNTAS + ESTADOS */
+
+.ayuda-inferior {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.ayuda-subtitulo {
+    font-size: 16px !important;
+    margin-bottom: 12px !important;
+}
+
+.preguntas {
+    display: grid;
+    gap: 8px;
+}
+
+.preguntas details {
+    border: 1px solid var(--borde-suave);
+    border-radius: 10px;
+    background-color: var(--fondo-suave);
+    transition: border-color 0.15s, background-color 0.15s;
+}
+
+.preguntas details[open] {
+    background-color: #ffffff;
+    border-color: var(--primario);
+}
+
+.preguntas summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 13px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.preguntas summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Signo + / − a la derecha */
+.preguntas summary::after {
+    content: "+";
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: var(--primario-suave);
+    color: var(--primario);
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preguntas details[open] summary::after {
+    content: "−";
+    background-color: var(--primario);
+    color: #ffffff;
+}
+
+.preguntas details p {
+    padding: 0 16px 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--texto-suave);
+}
+
+
+/* ESTADOS EN TARJETAS */
+
+.estados-tarjetas {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+}
+
+.estados-tarjetas li {
+    padding: 14px 16px;
+    border-radius: 10px;
+    border-left: 5px solid;
+}
+
+.estados-tarjetas li.disponible {
+    background-color: var(--primario-suave);
+    border-color: var(--primario);
+}
+
+.estados-tarjetas li.bajo {
+    background-color: var(--alerta-suave);
+    border-color: #d97706;
+}
+
+.estados-tarjetas li.agotado {
+    background-color: var(--peligro-suave);
+    border-color: var(--peligro);
+}
+
+.estados-tarjetas .estado {
+    background-color: #ffffff;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.estados-tarjetas p {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--texto);
+}
+
+
+@media (max-width: 950px) {
+
+    .ayuda-inferior {
+        grid-template-columns: 1fr;
+    }
+
+}

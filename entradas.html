@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es" class="cargando">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Registro de entradas de mercancia de LogiCore">
+
+    <title>Entradas - LogiCore</title>
+
+    <link rel="stylesheet" href="styles.css?v=10">
+    <link rel="stylesheet" href="entradas.css?v=10">
+
+    <script src="js/app.js?v=10" defer></script>
+    <script src="js/movimientos.js?v=10" defer></script>
+
+</head>
+
+<body>
+
+    <!-- ENCABEZADO -->
+    <header class="encabezado">
+
+        <div class="logo">
+            <a href="index.html">
+                <h1>LOGICORE</h1>
+                <p>Sistema de Almacen y Bodega</p>
+            </a>
+        </div>
+
+        <nav class="menu" aria-label="Navegacion principal">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="inventario.html">Inventario</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="entradas.html">Entradas</a></li>
+                <li><a href="salidas.html">Salidas</a></li>
+                <li><a href="reportes.html">Reportes</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+
+    <!-- CONTENIDO -->
+    <main class="entradas" data-tipo="entrada">
+
+        <!-- TITULO -->
+        <section class="entradas-titulo">
+
+            <div>
+
+                <p>CONTROL DE MERCANCÍA</p>
+
+                <h2>Entradas</h2>
+
+                <span>
+                    Registra los productos que ingresan
+                    al almacén.
+                </span>
+
+            </div>
+
+            <div class="entrada-numero">
+
+                <span>ENTRADAS REGISTRADAS</span>
+
+                <strong id="contador-movimientos">0</strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <section class="entradas-contenido">
+
+
+            <!-- FORMULARIO -->
+            <article class="formulario-entrada">
+
+                <div class="formulario-titulo">
+
+                    <p>NUEVA ENTRADA</p>
+
+                    <h3>Registrar mercancía</h3>
+
+                </div>
+
+
+                <form id="form-movimiento" novalidate>
+
+                    <label for="producto">Producto</label>
+
+                    <select id="producto">
+                        <option value="">Seleccionar producto</option>
+                    </select>
+
+                    <p class="ayuda-stock" id="ayuda-stock"></p>
+
+
+                    <div class="campos-fila">
+
+                        <div>
+                            <label for="cantidad">Cantidad</label>
+
+                            <input
+                                type="number"
+                                id="cantidad"
+                                min="1"
+                                step="1"
+                                placeholder="Ej: 50"
+                            >
+                        </div>
+
+                        <div>
+                            <label for="fecha">Fecha de entrada</label>
+
+                            <input
+                                type="date"
+                                id="fecha"
+                            >
+                        </div>
+
+                    </div>
+
+
+                    <label for="tercero">Proveedor</label>
+
+                    <input
+                        type="text"
+                        id="tercero"
+                        maxlength="60"
+                        placeholder="Nombre del proveedor"
+                    >
+
+
+                    <label for="observaciones">Observaciones</label>
+
+                    <textarea
+                        id="observaciones"
+                        maxlength="300"
+                        placeholder="Información adicional..."
+                    ></textarea>
+
+
+                    <p class="mensaje-error" id="error-movimiento" role="alert"></p>
+
+                    <button
+                        type="submit"
+                        class="btn-registrar"
+                    >
+                        Registrar entrada
+                    </button>
+
+                </form>
+
+            </article>
+
+
+            <!-- HISTORIAL -->
+            <article class="historial-entradas">
+
+                <div class="historial-titulo">
+
+                    <div>
+
+                        <p>HISTORIAL</p>
+
+                        <h3>Últimas entradas</h3>
+
+                    </div>
+
+                    <button type="button" class="btn-ver-todas" id="ver-todas" hidden>
+                        Ver todas
+                    </button>
+
+                </div>
+
+                <div id="historial"></div>
+
+            </article>
+
+        </section>
+
+    </main>
+
+
+    <!-- PIE DE PAGINA -->
+    <footer>
+
+        <p class="footer-logo">LogiCore</p>
+
+        <nav class="footer-menu" aria-label="Navegacion del pie de pagina">
+            <ul>
+                <li><a href="ayuda.html#ayuda">Ayuda</a></li>
+                <li><a href="ayuda.html#informacion">Información</a></li>
+                <li><a href="ayuda.html#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+
+    </footer>
+
+</body>
+
+</html>

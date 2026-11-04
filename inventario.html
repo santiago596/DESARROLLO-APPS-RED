@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es" class="cargando">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Control de inventario de LogiCore">
+
+    <title>Inventario - LogiCore</title>
+
+    <link rel="stylesheet" href="styles.css?v=10">
+    <link rel="stylesheet" href="inventario.css?v=10">
+
+    <script src="js/app.js?v=10" defer></script>
+    <script src="js/inventario.js?v=10" defer></script>
+</head>
+
+<body>
+
+    <!-- ENCABEZADO -->
+    <header class="encabezado">
+
+        <div class="logo">
+            <a href="index.html">
+                <h1>LOGICORE</h1>
+                <p>Sistema de Almacen y Bodega</p>
+            </a>
+        </div>
+
+        <nav class="menu" aria-label="Navegacion principal">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="inventario.html">Inventario</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="entradas.html">Entradas</a></li>
+                <li><a href="salidas.html">Salidas</a></li>
+                <li><a href="reportes.html">Reportes</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+
+    <!-- INVENTARIO -->
+    <main class="inventario">
+
+        <section class="inventario-titulo">
+
+            <div>
+                <p>CONTROL DE ALMACÉN</p>
+
+                <h2>Inventario</h2>
+
+                <span>
+                    Consulta el estado actual de los productos
+                    registrados en el almacén.
+                </span>
+            </div>
+
+
+            <a href="productos.html#nuevo" class="btn-inventario" id="btn-registrar-producto" data-solo-admin>
+                + Registrar producto
+            </a>
+
+
+        </section>
+
+
+        <!-- RESUMEN -->
+        <section class="resumen-inventario">
+
+            <article>
+                <p>Total productos</p>
+                <strong id="total-productos">0</strong>
+                <span>Productos registrados</span>
+            </article>
+
+            <article>
+                <p>Disponibles</p>
+                <strong id="total-disponibles">0</strong>
+                <span>Con existencias</span>
+            </article>
+
+            <article>
+                <p>Stock bajo</p>
+                <strong id="total-bajo">0</strong>
+                <span>Requieren reposición</span>
+            </article>
+
+            <article>
+                <p>Agotados</p>
+                <strong id="total-agotados">0</strong>
+                <span>Sin existencias</span>
+            </article>
+
+        </section>
+
+
+        <!-- TABLA -->
+        <section class="inventario-tabla">
+
+            <div class="tabla-header">
+
+                <div>
+                    <p>LISTADO</p>
+                    <h3>Productos en inventario</h3>
+                </div>
+
+                <div class="tabla-filtros">
+
+                    <input
+                        type="search"
+                        id="buscar-inventario"
+                        placeholder="Buscar por código, nombre o categoría..."
+                        aria-label="Buscar producto"
+                    >
+
+                    <select id="filtro-estado" aria-label="Filtrar por estado">
+                        <option value="">Todos los estados</option>
+                        <option value="disponible">Disponible</option>
+                        <option value="bajo">Stock bajo</option>
+                        <option value="agotado">Agotado</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="tabla-scroll">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>CÓDIGO</th>
+                            <th>PRODUCTO</th>
+                            <th>CATEGORÍA</th>
+                            <th>CANTIDAD</th>
+                            <th>MÍNIMO</th>
+                            <th>ESTADO</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tabla-inventario"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- PIE DE PAGINA -->
+    <footer>
+
+        <p class="footer-logo">LogiCore</p>
+
+        <nav class="footer-menu" aria-label="Navegacion del pie de pagina">
+            <ul>
+                <li><a href="ayuda.html#ayuda">Ayuda</a></li>
+                <li><a href="ayuda.html#informacion">Información</a></li>
+                <li><a href="ayuda.html#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+
+    </footer>
+
+</body>
+
+</html>

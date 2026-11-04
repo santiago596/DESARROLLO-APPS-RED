@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es" class="cargando">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Reportes de movimientos e inventario de LogiCore">
+
+    <title>Reportes - LogiCore</title>
+
+    <link rel="stylesheet" href="styles.css?v=10">
+    <link rel="stylesheet" href="inventario.css?v=10">
+    <link rel="stylesheet" href="reportes.css?v=10">
+
+    <script src="js/app.js?v=10" defer></script>
+    <script src="js/reportes.js?v=10" defer></script>
+</head>
+
+<body>
+
+    <!-- ENCABEZADO -->
+    <header class="encabezado">
+
+        <div class="logo">
+            <a href="index.html">
+                <h1>LOGICORE</h1>
+                <p>Sistema de Almacen y Bodega</p>
+            </a>
+        </div>
+
+        <nav class="menu" aria-label="Navegacion principal">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="inventario.html">Inventario</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="entradas.html">Entradas</a></li>
+                <li><a href="salidas.html">Salidas</a></li>
+                <li><a href="reportes.html">Reportes</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+
+    <!-- REPORTES -->
+    <main class="inventario reportes">
+
+        <section class="inventario-titulo">
+
+            <div>
+                <p>ANÁLISIS DEL ALMACÉN</p>
+
+                <h2>Reportes</h2>
+
+                <span id="periodo-reporte">
+                    Movimientos e inventario de todo el periodo.
+                </span>
+            </div>
+
+            <div class="reportes-acciones">
+                <button type="button" class="btn-secundario" id="btn-exportar">
+                    Exportar a Excel
+                </button>
+                <button type="button" class="btn-primario" id="btn-imprimir">
+                    Imprimir
+                </button>
+            </div>
+
+        </section>
+
+
+        <!-- FILTROS -->
+        <form class="reportes-filtros" id="form-filtros" novalidate>
+
+            <div>
+                <label for="filtro-desde">Desde</label>
+                <input type="date" id="filtro-desde">
+            </div>
+
+            <div>
+                <label for="filtro-hasta">Hasta</label>
+                <input type="date" id="filtro-hasta">
+            </div>
+
+            <div>
+                <label for="filtro-tipo">Tipo</label>
+                <select id="filtro-tipo">
+                    <option value="">Entradas y salidas</option>
+                    <option value="entrada">Solo entradas</option>
+                    <option value="salida">Solo salidas</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="filtro-producto">Producto</label>
+                <select id="filtro-producto">
+                    <option value="">Todos los productos</option>
+                </select>
+            </div>
+
+            <div class="filtros-rapidos">
+                <button type="button" data-dias="7">7 días</button>
+                <button type="button" data-dias="30">30 días</button>
+                <button type="reset">Limpiar</button>
+            </div>
+
+            <p class="mensaje-error" id="error-filtros" role="alert"></p>
+
+        </form>
+
+
+        <!-- RESUMEN -->
+        <section class="resumen-inventario">
+
+            <article>
+                <p>Movimientos</p>
+                <strong id="rep-movimientos">0</strong>
+                <span>En el periodo</span>
+            </article>
+
+            <article>
+                <p>Unidades ingresadas</p>
+                <strong id="rep-entradas" class="positivo">0</strong>
+                <span>Por entradas</span>
+            </article>
+
+            <article>
+                <p>Unidades despachadas</p>
+                <strong id="rep-salidas" class="negativo">0</strong>
+                <span>Por salidas</span>
+            </article>
+
+            <article>
+                <p>Balance neto</p>
+                <strong id="rep-balance">0</strong>
+                <span>Entradas menos salidas</span>
+            </article>
+
+        </section>
+
+
+        <div class="reportes-columnas">
+
+            <!-- RESUMEN POR PRODUCTO -->
+            <section class="inventario-tabla">
+
+                <div class="tabla-header">
+                    <div>
+                        <p>CONSOLIDADO</p>
+                        <h3>Resumen por producto</h3>
+                    </div>
+                </div>
+
+                <div class="tabla-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>CÓDIGO</th>
+                                <th>PRODUCTO</th>
+                                <th>ENTRADAS</th>
+                                <th>SALIDAS</th>
+                                <th>STOCK ACTUAL</th>
+                                <th>ESTADO</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-productos"></tbody>
+                    </table>
+                </div>
+
+            </section>
+
+
+            <!-- REPOSICION -->
+            <section class="inventario-tabla reponer">
+
+                <div class="tabla-header">
+                    <div>
+                        <p>COMPRAS</p>
+                        <h3>Productos para reponer</h3>
+                    </div>
+                </div>
+
+                <ul class="lista-reponer" id="lista-reponer"></ul>
+
+                <p class="nota-reponer">
+                    Cantidad sugerida para llegar al doble del stock mínimo.
+                </p>
+
+            </section>
+
+        </div>
+
+
+        <!-- DETALLE DE MOVIMIENTOS -->
+        <section class="inventario-tabla">
+
+            <div class="tabla-header">
+                <div>
+                    <p>DETALLE</p>
+                    <h3>Movimientos del periodo</h3>
+                </div>
+            </div>
+
+            <div class="tabla-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>FECHA</th>
+                            <th>TIPO</th>
+                            <th>PRODUCTO</th>
+                            <th>CANTIDAD</th>
+                            <th>PROVEEDOR / DESTINO</th>
+                            <th>USUARIO</th>
+                            <th>OBSERVACIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-movimientos"></tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- PIE DE PAGINA -->
+    <footer>
+
+        <p class="footer-logo">LogiCore</p>
+
+        <nav class="footer-menu" aria-label="Navegacion del pie de pagina">
+            <ul>
+                <li><a href="ayuda.html#ayuda">Ayuda</a></li>
+                <li><a href="ayuda.html#informacion">Información</a></li>
+                <li><a href="ayuda.html#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,195 @@
+/* =====================================
+   LOGICORE - REPORTES
+   (usa la base de inventario.css)
+===================================== */
+
+.reportes > section,
+.reportes > form,
+.reportes-columnas {
+    margin-bottom: 14px;
+}
+
+.reportes .inventario-titulo {
+    margin-bottom: 14px;
+}
+
+.reportes-acciones {
+    display: flex;
+    gap: 8px;
+}
+
+
+/* FILTROS */
+
+.reportes-filtros {
+    background-color: white;
+    border: 1px solid var(--borde);
+    box-shadow: var(--sombra);
+    padding: 12px 14px;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) auto;
+    gap: 10px;
+    align-items: end;
+}
+
+.reportes-filtros label {
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--texto);
+    margin-bottom: 4px;
+}
+
+.reportes-filtros input,
+.reportes-filtros select {
+    width: 100%;
+    background-color: white;
+    border: 1px solid var(--borde);
+    padding: 8px;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    outline: none;
+}
+
+.reportes-filtros input:focus,
+.reportes-filtros select:focus {
+    border-color: var(--primario);
+}
+
+.filtros-rapidos {
+    display: flex;
+    gap: 6px;
+}
+
+.filtros-rapidos button {
+    background-color: white;
+    border: 1px solid var(--borde);
+    padding: 8px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.filtros-rapidos button:hover {
+    border-color: var(--primario);
+    color: var(--primario);
+}
+
+.reportes-filtros .mensaje-error {
+    grid-column: 1 / -1;
+}
+
+
+/* DOS COLUMNAS: PRODUCTOS + REPOSICION */
+
+.reportes-columnas {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 14px;
+    align-items: start;
+}
+
+
+/* REPOSICION */
+
+.lista-reponer {
+    list-style: none;
+    padding: 4px 16px;
+}
+
+.lista-reponer li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--borde-suave);
+}
+
+.lista-reponer li:last-child {
+    border-bottom: none;
+}
+
+.lista-reponer strong {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.lista-reponer b {
+    font-size: 12px;
+    color: var(--primario);
+    border: 1px solid var(--primario);
+    padding: 5px 8px;
+    white-space: nowrap;
+}
+
+.nota-reponer {
+    font-size: 11px;
+    color: var(--texto-suave);
+    padding: 8px 16px 12px;
+    border-top: 1px solid var(--borde-suave);
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 950px) {
+
+    .reportes-filtros {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .filtros-rapidos {
+        grid-column: 1 / -1;
+    }
+
+    .reportes-columnas {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .reportes-filtros {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* IMPRESION: solo el contenido del reporte */
+
+@media print {
+
+    .encabezado,
+    footer,
+    .reportes-acciones,
+    .reportes-filtros,
+    .toast {
+        display: none !important;
+    }
+
+    body {
+        background-color: white;
+    }
+
+    .inventario {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+    }
+
+    .resumen-inventario article,
+    .inventario-tabla {
+        box-shadow: none;
+        break-inside: avoid;
+    }
+
+    .reportes-columnas {
+        grid-template-columns: 1fr;
+    }
+
+}

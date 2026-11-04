@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Acceso al sistema LogiCore">
+
+    <title>Iniciar sesión - LogiCore</title>
+
+    <link rel="stylesheet" href="styles.css?v=10">
+    <link rel="stylesheet" href="login.css?v=10">
+
+    <script src="js/app.js?v=10" defer></script>
+    <script src="js/login.js?v=10" defer></script>
+</head>
+
+<body class="pagina-login">
+
+    <main class="login">
+
+        <!-- MARCA -->
+        <section class="login-marca">
+
+            <h1>LOGICORE</h1>
+
+            <p>Sistema de Almacen y Bodega</p>
+
+            <ul>
+                <li>Control de inventario actualizado</li>
+                <li>Registro de entradas y salidas</li>
+                <li>Alertas de stock bajo</li>
+            </ul>
+
+        </section>
+
+
+        <!-- FORMULARIO -->
+        <section class="login-formulario">
+
+            <p class="etiqueta">ACCESO AL SISTEMA</p>
+
+            <h2>Iniciar sesión</h2>
+
+            <form id="form-login" novalidate>
+
+                <label for="usuario">Usuario</label>
+
+                <input
+                    type="text"
+                    id="usuario"
+                    autocomplete="username"
+                    placeholder="Ej: admin"
+                    autofocus
+                >
+
+                <label for="clave">Contraseña</label>
+
+                <div class="campo-clave">
+
+                    <input
+                        type="password"
+                        id="clave"
+                        autocomplete="current-password"
+                        placeholder="Tu contraseña"
+                    >
+
+                    <button type="button" id="ver-clave" aria-label="Mostrar contraseña">
+                        Ver
+                    </button>
+
+                </div>
+
+                <p class="mensaje-error" id="error-login" role="alert"></p>
+
+                <button type="submit" class="btn-primario">
+                    Ingresar
+                </button>
+
+            </form>
+
+            <p class="login-ayuda">
+                Usuarios de prueba:
+                <strong>admin</strong> / admin123 ·
+                <strong>bodega</strong> / bodega123
+            </p>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,504 @@
+/* =====================================
+   LOGICORE - ENTRADAS
+===================================== */
+
+
+/* CONTENEDOR */
+
+.entradas {
+
+    width: 96%;
+
+    max-width: 1600px;
+
+    margin: 20px auto;
+
+}
+
+/* =====================================
+   TITULO
+===================================== */
+
+.entradas-titulo {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    margin-bottom: 16px;
+
+}
+
+
+.entradas-titulo p {
+
+    color: var(--primario);
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 6px;
+
+}
+
+
+.entradas-titulo h2 {
+
+    font-size: 24px;
+
+    margin-bottom: 7px;
+
+}
+
+
+.entradas-titulo span {
+
+    color: var(--texto-suave);
+
+    font-size: 13px;
+
+}
+
+
+/* =====================================
+   NUMERO DE ENTRADAS
+===================================== */
+
+.entrada-numero {
+
+    text-align: right;
+
+    background-color: #ffffff;
+
+    border: 1px solid var(--borde);
+
+    padding: 12px 18px;
+
+}
+
+
+.entrada-numero span {
+
+    display: block;
+
+    color: var(--primario);
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 5px;
+
+}
+
+
+.entrada-numero strong {
+
+    font-size: 24px;
+
+}
+
+
+/* =====================================
+   CONTENIDO
+===================================== */
+
+.entradas-contenido {
+
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+    gap: 14px;
+
+}
+
+
+/* =====================================
+   FORMULARIO
+===================================== */
+
+.formulario-entrada {
+
+    background-color: #ffffff;
+
+    border: 1px solid var(--borde);
+
+    box-shadow: var(--sombra);
+
+    padding: 16px;
+
+}
+
+
+.formulario-titulo {
+
+    border-bottom: 1px solid var(--borde-suave);
+
+    padding-bottom: 12px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.formulario-titulo p {
+
+    color: var(--primario);
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 5px;
+
+}
+
+
+.formulario-titulo h3 {
+
+    font-size: 16px;
+
+}
+
+
+/* CAMPOS */
+
+.formulario-entrada label {
+
+    display: block;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    color: var(--texto);
+
+    margin-bottom: 5px;
+
+}
+
+
+.formulario-entrada input,
+.formulario-entrada select,
+.formulario-entrada textarea {
+
+    width: 100%;
+
+    border: 1px solid var(--borde);
+
+    padding: 10px;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 12px;
+
+    margin-bottom: 14px;
+
+    outline: none;
+
+    background-color: #ffffff;
+
+}
+
+
+.formulario-entrada input:focus,
+.formulario-entrada select:focus,
+.formulario-entrada textarea:focus {
+
+    border-color: var(--primario);
+
+}
+
+
+.formulario-entrada textarea {
+
+    height: 56px;
+
+    resize: none;
+
+}
+
+
+/* BOTÓN */
+
+.btn-registrar {
+
+    width: 100%;
+
+    border: none;
+
+    background-color: var(--primario);
+
+    color: #ffffff;
+
+    padding: 11px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+.btn-registrar:hover {
+
+    background-color: var(--primario-oscuro);
+
+}
+
+
+/* =====================================
+   HISTORIAL
+===================================== */
+
+.historial-entradas {
+
+    background-color: #ffffff;
+
+    border: 1px solid var(--borde);
+
+    box-shadow: var(--sombra);
+
+    padding: 16px;
+
+}
+
+
+.historial-titulo {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    border-bottom: 1px solid var(--borde-suave);
+
+    padding-bottom: 12px;
+
+    margin-bottom: 5px;
+
+}
+
+
+.historial-titulo p {
+
+    color: var(--primario);
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 5px;
+
+}
+
+
+.historial-titulo h3 {
+
+    font-size: 16px;
+
+}
+
+
+.btn-ver-todas {
+
+    background: none;
+
+    border: none;
+
+    color: var(--primario);
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+.btn-ver-todas:hover {
+
+    text-decoration: underline;
+
+}
+
+
+/* =====================================
+   ITEM DE ENTRADA
+===================================== */
+
+.entrada-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 10px 5px;
+
+    border-bottom: 1px solid var(--borde-suave);
+
+}
+
+
+.entrada-item:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.entrada-icono {
+
+    width: 30px;
+
+    height: 30px;
+
+    background-color: var(--primario-suave);
+
+    color: var(--primario);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+}
+
+
+.entrada-info {
+
+    flex: 1;
+
+}
+
+
+.entrada-info strong {
+
+    display: block;
+
+    font-size: 13px;
+
+    margin-bottom: 4px;
+
+}
+
+
+.entrada-info span {
+
+    color: var(--texto-suave);
+
+    font-size: 11px;
+
+}
+
+
+.entrada-cantidad {
+
+    color: var(--primario);
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+}
+
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (max-width: 750px) {
+
+    .entradas {
+
+        width: 92%;
+
+    }
+
+
+    .entradas-titulo {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+
+    }
+
+
+    .entrada-numero {
+
+        text-align: left;
+
+    }
+
+
+    .entradas-contenido {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+/* =====================================
+   CAMPOS EN FILA Y AYUDA DE STOCK
+===================================== */
+
+.campos-fila {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 12px;
+}
+
+.ayuda-stock {
+    font-size: 12px;
+    font-weight: bold;
+    margin: -8px 0 12px;
+}
+
+.ayuda-stock:empty {
+    display: none;
+}
+
+.ayuda-stock.disponible { color: var(--primario); }
+.ayuda-stock.bajo { color: var(--alerta); }
+.ayuda-stock.agotado { color: var(--peligro); }
+
+
+/* =====================================
+   SALIDAS (misma pagina, color rojo)
+===================================== */
+
+.salidas .entrada-icono {
+    background-color: var(--peligro-suave);
+    color: var(--peligro);
+}
+
+.salidas .entrada-cantidad {
+    color: var(--peligro);
+}

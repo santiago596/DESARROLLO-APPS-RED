@@ -1,6 +1,5 @@
-
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="cargando">
 
 <head>
     <meta charset="UTF-8">
@@ -12,7 +11,10 @@
 
     <title>LogiCore - Sistema de Almacen y Bodega</title>
 
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=10">
+
+    <script src="js/app.js?v=10" defer></script>
+    <script src="js/inicio.js?v=10" defer></script>
 </head>
 
 <body>
@@ -21,18 +23,20 @@
     <header class="encabezado">
 
         <div class="logo">
-            <h1>LOGICORE</h1>
-            <p>Sistema de Almacen y Bodega</p>
+            <a href="index.html">
+                <h1>LOGICORE</h1>
+                <p>Sistema de Almacen y Bodega</p>
+            </a>
         </div>
 
         <nav class="menu" aria-label="Navegacion principal">
             <ul>
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Inventario</a></li>
-                <li><a href="#">Productos</a></li>
-                <li><a href="#">Entradas</a></li>
-                <li><a href="#">Salidas</a></li>
-                <li><a href="#">Reportes</a></li>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="inventario.html">Inventario</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="entradas.html">Entradas</a></li>
+                <li><a href="salidas.html">Salidas</a></li>
+                <li><a href="reportes.html">Reportes</a></li>
             </ul>
         </nav>
 
@@ -42,23 +46,52 @@
     <!-- CONTENIDO PRINCIPAL -->
     <main class="contenedor">
 
-        <!-- PANEL CENTRAL -->
-        <section class="panel-central">
+        <div class="inicio-superior">
 
-            <p class="etiqueta">PANEL CENTRAL</p>
+            <!-- PANEL CENTRAL -->
+            <section class="panel-central">
 
-            <h2>BIENVENIDO A LOGICORE</h2>
+                <p class="etiqueta">PANEL CENTRAL</p>
 
-            <p class="descripcion">
-                Sistema para gestionar y controlar
-                la informacion de tu almacen.
-            </p>
+                <h2 id="bienvenida">BIENVENIDO A LOGICORE</h2>
 
-            <a href="#" class="boton">
-                CONSULTAR INVENTARIO
-            </a>
+                <p class="descripcion">
+                    Sistema para gestionar y controlar
+                    la informacion de tu almacen.
+                </p>
 
-        </section>
+                <div class="panel-acciones">
+                    <a href="inventario.html" class="boton">
+                        CONSULTAR INVENTARIO
+                    </a>
+                    <a href="entradas.html" class="boton boton-secundario">
+                        + ENTRADA
+                    </a>
+                    <a href="salidas.html" class="boton boton-secundario">
+                        − SALIDA
+                    </a>
+                </div>
+
+            </section>
+
+
+            <!-- RECURSO MULTIMEDIA -->
+            <section class="multimedia">
+
+                <img src="img/img1.jpg"
+                     alt="Pasillo de un almacen con estanterias llenas de mercancia">
+
+                <div class="texto-multimedia">
+
+                    <h2>RECURSO MULTIMEDIA</h2>
+
+                    <h3>Organización del almacén</h3>
+
+                </div>
+
+            </section>
+
+        </div>
 
 
         <!-- INVENTARIO E INFORMACION -->
@@ -69,9 +102,9 @@
                 <h2>INVENTARIO</h2>
 
                 <ul>
-                    <li>Productos registrados</li>
-                    <li>Entradas</li>
-                    <li>Salidas</li>
+                    <li>Productos registrados <strong id="dato-productos">0</strong></li>
+                    <li>Entradas <strong id="dato-entradas">0</strong></li>
+                    <li>Salidas <strong id="dato-salidas">0</strong></li>
                 </ul>
 
             </article>
@@ -82,37 +115,48 @@
                 <h2>INFORMACION</h2>
 
                 <ul>
-                    <li>Productos disponibles</li>
-                    <li>Alertas de inventario</li>
-                    <li>Informacion importante</li>
+                    <li>Productos disponibles <strong id="dato-disponibles">0</strong></li>
+                    <li>Unidades en stock <strong id="dato-unidades">0</strong></li>
+                    <li>Último movimiento <strong id="dato-ultimo">-</strong></li>
                 </ul>
+
+            </article>
+
+
+            <article class="tarjeta">
+
+                <h2>ALERTAS DE INVENTARIO <span id="dato-alertas" class="contador-alertas">0</span></h2>
+
+                <ul id="lista-alertas"></ul>
 
             </article>
 
         </section>
 
 
-        <!-- RECURSO MULTIMEDIA -->
-        <section class="multimedia">
+        <!-- MOVIMIENTOS RECIENTES -->
+        <section class="recientes">
 
-            <h2>RECURSO MULTIMEDIA</h2>
+            <div class="recientes-titulo">
+                <h2>MOVIMIENTOS RECIENTES</h2>
+                <a href="reportes.html">Ver todos en reportes →</a>
+            </div>
 
-            <div class="multimedia-contenido">
-
-                <img src="img/img1.jpg"
-                     alt="Imagen de un almacen">
-
-                <div class="texto-multimedia">
-
-                    <h3>Imagen / video de apoyo</h3>
-
-                    <p>
-                        Recurso relacionado con la organizacion,
-                        el movimiento y el control del almacen.
-                    </p>
-
-                </div>
-
+            <div class="recientes-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>FECHA</th>
+                            <th>TIPO</th>
+                            <th>PRODUCTO</th>
+                            <th>CANTIDAD</th>
+                            <th>PROVEEDOR / DESTINO</th>
+                            <th>STOCK ACTUAL</th>
+                            <th>REGISTRADO POR</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-recientes"></tbody>
+                </table>
             </div>
 
         </section>
@@ -127,9 +171,9 @@
 
         <nav class="footer-menu" aria-label="Navegacion del pie de pagina">
             <ul>
-                <li><a href="#">Ayuda</a></li>
-                <li><a href="#">Informacion</a></li>
-                <li><a href="#">Contacto</a></li>
+                <li><a href="ayuda.html#ayuda">Ayuda</a></li>
+                <li><a href="ayuda.html#informacion">Información</a></li>
+                <li><a href="ayuda.html#contacto">Contacto</a></li>
             </ul>
         </nav>
 
@@ -138,4 +182,3 @@
 </body>
 
 </html>
-

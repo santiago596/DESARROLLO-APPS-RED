@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es" class="cargando">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Ayuda, información y contacto de LogiCore">
+
+    <title>Ayuda - LogiCore</title>
+
+    <link rel="stylesheet" href="styles.css?v=10">
+    <link rel="stylesheet" href="inventario.css?v=10">
+    <link rel="stylesheet" href="ayuda.css?v=10">
+
+    <script src="js/app.js?v=10" defer></script>
+</head>
+
+<body>
+
+    <!-- ENCABEZADO -->
+    <header class="encabezado">
+
+        <div class="logo">
+            <a href="index.html">
+                <h1>LOGICORE</h1>
+                <p>Sistema de Almacen y Bodega</p>
+            </a>
+        </div>
+
+        <nav class="menu" aria-label="Navegacion principal">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="inventario.html">Inventario</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="entradas.html">Entradas</a></li>
+                <li><a href="salidas.html">Salidas</a></li>
+                <li><a href="reportes.html">Reportes</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+
+    <!-- CONTENIDO -->
+    <main class="inventario ayuda">
+
+        <section class="inventario-titulo">
+            <div>
+                <p>CENTRO DE AYUDA</p>
+                <h2>Ayuda e información</h2>
+                <span>Cómo usar LogiCore, cómo funciona y a quién acudir.</span>
+            </div>
+
+            <nav class="ayuda-indice" aria-label="Secciones de ayuda">
+                <a href="#ayuda">Ayuda</a>
+                <a href="#informacion">Información</a>
+                <a href="#contacto">Contacto</a>
+            </nav>
+        </section>
+
+
+        <!-- AYUDA -->
+        <section class="ayuda-seccion" id="ayuda">
+
+            <div class="ayuda-encabezado">
+                <p>AYUDA</p>
+                <h3>Cómo usar cada módulo</h3>
+            </div>
+
+            <!-- MODULOS -->
+            <div class="modulos">
+
+                <a class="modulo" href="inventario.html" style="--color: #2563eb; --suave: #e8f0fe;">
+                    <span class="modulo-icono" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg>
+                    </span>
+                    <h4>Inventario</h4>
+                    <p>Consulta el stock de todos los productos y su estado. Busca o filtra para encontrar lo que necesitas.</p>
+                    <span class="modulo-ir">Ir a Inventario →</span>
+                </a>
+
+                <a class="modulo" href="productos.html" style="--color: #7c3aed; --suave: #f1eafe;">
+                    <span class="modulo-icono" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>
+                    </span>
+                    <h4>Productos</h4>
+                    <p>El administrador crea, edita y elimina productos. El código se asigna solo y en "Ver detalles" está su historial.</p>
+                    <span class="modulo-ir">Ir a Productos →</span>
+                </a>
+
+                <a class="modulo" href="entradas.html" style="--color: #059669; --suave: #e3f6ee;">
+                    <span class="modulo-icono" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+                    </span>
+                    <h4>Entradas</h4>
+                    <p>Registra la mercancía que llega: producto, cantidad, proveedor y fecha. La cantidad se <strong>suma</strong> al stock.</p>
+                    <span class="modulo-ir">Ir a Entradas →</span>
+                </a>
+
+                <a class="modulo" href="salidas.html" style="--color: #dc2626; --suave: #fdecea;">
+                    <span class="modulo-icono" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+                    </span>
+                    <h4>Salidas</h4>
+                    <p>Registra la mercancía que sale. La cantidad se <strong>descuenta</strong> y nunca puede superar lo disponible.</p>
+                    <span class="modulo-ir">Ir a Salidas →</span>
+                </a>
+
+                <a class="modulo" href="reportes.html" style="--color: #d97706; --suave: #fdf3d8;">
+                    <span class="modulo-icono" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
+                    </span>
+                    <h4>Reportes</h4>
+                    <p>Filtra por fecha, tipo o producto, revisa qué reponer y descarga el reporte en Excel o imprímelo.</p>
+                    <span class="modulo-ir">Ir a Reportes →</span>
+                </a>
+
+            </div>
+
+
+            <div class="ayuda-inferior">
+
+                <!-- PREGUNTAS FRECUENTES -->
+                <div>
+                    <h4 class="ayuda-subtitulo">Preguntas frecuentes</h4>
+
+                    <div class="preguntas">
+
+                        <details open>
+                            <summary>¿Cómo cambio el stock de un producto?</summary>
+                            <p>Solo con <strong>Entradas</strong> (suman) y <strong>Salidas</strong> (restan). Así cada cambio queda en el historial con fecha y responsable.</p>
+                        </details>
+
+                        <details>
+                            <summary>¿Por qué no me deja registrar una salida?</summary>
+                            <p>La cantidad es mayor al stock disponible. El sistema te muestra cuántas unidades hay; registra una salida igual o menor.</p>
+                        </details>
+
+                        <details>
+                            <summary>¿Por qué no puedo eliminar un producto?</summary>
+                            <p>Solo se eliminan productos con 0 unidades. Primero registra la salida de lo que queda. El historial se conserva.</p>
+                        </details>
+
+                        <details>
+                            <summary>¿Qué diferencia hay entre administrador y operario?</summary>
+                            <p>El <strong>administrador</strong> gestiona el catálogo de productos. El <strong>operario</strong> registra entradas y salidas y consulta la información.</p>
+                        </details>
+
+                        <details>
+                            <summary>¿Qué significa "Pedido sugerido"?</summary>
+                            <p>Es la cantidad recomendada para que un producto con stock bajo o agotado llegue al doble de su stock mínimo.</p>
+                        </details>
+
+                    </div>
+                </div>
+
+                <!-- ESTADOS DEL STOCK -->
+                <div>
+                    <h4 class="ayuda-subtitulo">Estados del stock</h4>
+
+                    <ul class="estados-tarjetas">
+                        <li class="disponible">
+                            <span class="estado disponible">Disponible</span>
+                            <p>Hay más unidades que el stock mínimo. Todo en orden.</p>
+                        </li>
+                        <li class="bajo">
+                            <span class="estado bajo">Stock bajo</span>
+                            <p>Quedan igual o menos unidades que el mínimo. Conviene reponer.</p>
+                        </li>
+                        <li class="agotado">
+                            <span class="estado agotado">Agotado</span>
+                            <p>No quedan unidades. No se pueden registrar salidas.</p>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- INFORMACION (presentacion comercial) -->
+        <section class="ayuda-seccion venta" id="informacion">
+
+            <div class="venta-portada">
+
+                <div class="venta-mensaje">
+                    <p class="venta-etiqueta">INFORMACIÓN</p>
+                    <h3>Controla tu almacén sin errores y sin papeleo</h3>
+                    <p>
+                        LogiCore es un sistema web de inventario para negocios que mueven mercancía
+                        todos los días. En todo momento sabes qué tienes, qué entró, qué salió
+                        y qué debes volver a pedir.
+                    </p>
+                    <a href="#contacto" class="venta-boton">Solicitar una demostración</a>
+                </div>
+
+                <ul class="venta-cifras">
+                    <li><strong>100%</strong><span>web: se usa desde el navegador, sin instalar programas</span></li>
+                    <li><strong>0</strong><span>stock negativo: el sistema no deja despachar lo que no hay</span></li>
+                    <li><strong>1 clic</strong><span>para descargar reportes en Excel listos para presentar</span></li>
+                </ul>
+
+            </div>
+
+
+            <h4 class="venta-subtitulo">¿Qué obtiene tu negocio?</h4>
+
+            <div class="venta-beneficios">
+
+                <article>
+                    <span class="venta-icono" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>
+                    </span>
+                    <h5>Inventario siempre al día</h5>
+                    <p>El stock se actualiza solo con cada entrada y salida. Nada de hojas de cálculo desactualizadas.</p>
+                </article>
+
+                <article>
+                    <span class="venta-icono" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M21 16l-4 4-4-4"/></svg>
+                    </span>
+                    <h5>Entradas y salidas sin errores</h5>
+                    <p>Cada movimiento queda registrado con fecha, cantidad, proveedor o destino y quién lo hizo.</p>
+                </article>
+
+                <article>
+                    <span class="venta-icono" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                    </span>
+                    <h5>Alertas de reposición</h5>
+                    <p>Avisa cuando un producto llega a su mínimo y sugiere cuánto pedir para no quedarte sin mercancía.</p>
+                </article>
+
+                <article>
+                    <span class="venta-icono" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>
+                    </span>
+                    <h5>Reportes en Excel</h5>
+                    <p>Filtra por fechas, tipo o producto y descarga un Excel con formato, totales y pedido sugerido.</p>
+                </article>
+
+                <article>
+                    <span class="venta-icono" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </span>
+                    <h5>Usuarios y permisos</h5>
+                    <p>El administrador gestiona el catálogo; los operarios solo registran movimientos. Cada uno ve lo que le corresponde.</p>
+                </article>
+
+                <article>
+                    <span class="venta-icono" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                    </span>
+                    <h5>Datos seguros</h5>
+                    <p>Información guardada en base de datos, contraseñas cifradas y validaciones en el servidor.</p>
+                </article>
+
+            </div>
+
+
+            <div class="ayuda-columnas venta-pie">
+
+                <div>
+                    <h4>Ideal para</h4>
+                    <ul class="venta-negocios">
+                        <li>Bodegas y almacenes</li>
+                        <li>Distribuidoras</li>
+                        <li>Ferreterías</li>
+                        <li>Tiendas y minimercados</li>
+                        <li>Pymes con inventario</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>Tecnología confiable</h4>
+                    <p class="ayuda-texto">
+                        Desarrollado con <strong>PHP</strong> y <strong>MySQL</strong>. Funciona en un
+                        servidor propio del negocio o en un hosting, y se adapta a computadores,
+                        tabletas y celulares.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTACTO -->
+        <section class="ayuda-seccion" id="contacto">
+
+            <div class="ayuda-encabezado">
+                <p>CONTACTO</p>
+                <h3>¿Quieres LogiCore para tu negocio?</h3>
+            </div>
+
+            <div class="contacto">
+
+                <!-- QUIEN ATIENDE -->
+                <div class="contacto-persona">
+
+                    <div class="contacto-avatar" aria-hidden="true">SM</div>
+
+                    <div>
+                        <h4>Santiago Medina</h4>
+                        <p class="contacto-cargo">Desarrollador de LogiCore</p>
+                    </div>
+
+                    <p class="contacto-texto">
+                        Escríbeme y te muestro el sistema funcionando, sin compromiso. Te ayudo a
+                        instalarlo, cargar tus productos y adaptarlo a tu negocio. También atiendo
+                        dudas y soporte técnico.
+                    </p>
+
+                    <p class="contacto-ubicacion">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Cúcuta, Norte de Santander · Colombia
+                    </p>
+
+                </div>
+
+
+                <!-- MEDIOS DE CONTACTO -->
+                <div class="contacto-medios">
+
+                    <a class="contacto-medio whatsapp"
+                       href="https://wa.me/573145246615?text=Hola%20Santiago%2C%20me%20interesa%20LogiCore%20para%20mi%20negocio."
+                       target="_blank" rel="noopener">
+                        <span class="contacto-icono" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"/></svg>
+                        </span>
+                        <span>
+                            <strong>WhatsApp</strong>
+                            <small>314 524 6615</small>
+                        </span>
+                        <em>Escribir</em>
+                    </a>
+
+                    <a class="contacto-medio correo"
+                       href="mailto:santiagomedina0404@gmail.com?subject=Informaci%C3%B3n%20sobre%20LogiCore">
+                        <span class="contacto-icono" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+                        </span>
+                        <span>
+                            <strong>Correo electrónico</strong>
+                            <small>santiagomedina0404@gmail.com</small>
+                        </span>
+                        <em>Enviar</em>
+                    </a>
+
+                    <a class="contacto-medio telefono" href="tel:+573145246615">
+                        <span class="contacto-icono" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+                        </span>
+                        <span>
+                            <strong>Llamada</strong>
+                            <small>+57 314 524 6615</small>
+                        </span>
+                        <em>Llamar</em>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- PIE DE PAGINA -->
+    <footer>
+
+        <p class="footer-logo">LogiCore</p>
+
+        <nav class="footer-menu" aria-label="Navegacion del pie de pagina">
+            <ul>
+                <li><a href="ayuda.html#ayuda">Ayuda</a></li>
+                <li><a href="ayuda.html#informacion">Información</a></li>
+                <li><a href="ayuda.html#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+
+    </footer>
+
+</body>
+
+</html>

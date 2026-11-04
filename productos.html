@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es" class="cargando">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Gestion de productos de LogiCore">
+
+    <title>Productos - LogiCore</title>
+
+    <link rel="stylesheet" href="styles.css?v=10">
+    <link rel="stylesheet" href="productos.css?v=10">
+
+    <script src="js/app.js?v=10" defer></script>
+    <script src="js/productos.js?v=10" defer></script>
+</head>
+
+<body>
+
+    <!-- ENCABEZADO -->
+    <header class="encabezado">
+
+        <div class="logo">
+            <a href="index.html">
+                <h1>LOGICORE</h1>
+                <p>Sistema de Almacen y Bodega</p>
+            </a>
+        </div>
+
+        <nav class="menu" aria-label="Navegacion principal">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="inventario.html">Inventario</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="entradas.html">Entradas</a></li>
+                <li><a href="salidas.html">Salidas</a></li>
+                <li><a href="reportes.html">Reportes</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+
+    <!-- CONTENIDO -->
+    <main class="productos">
+
+        <!-- TITULO -->
+        <section class="productos-titulo">
+
+            <div>
+
+                <p>GESTIÓN DEL ALMACÉN</p>
+
+                <h2>Productos</h2>
+
+                <span>
+                    Consulta y administra los productos
+                    registrados en LogiCore.
+                </span>
+
+            </div>
+
+
+            <button class="btn-nuevo-producto" id="btn-nuevo-producto" data-solo-admin>
+                + Nuevo producto
+            </button>
+
+
+        </section>
+
+
+        <!-- BUSQUEDA -->
+        <section class="productos-busqueda">
+
+            <input
+                type="search"
+                id="buscar-producto"
+                placeholder="Buscar por nombre o código..."
+                aria-label="Buscar producto"
+            >
+
+            <select id="filtro-categoria" aria-label="Filtrar por categoría">
+                <option value="">Todas las categorías</option>
+            </select>
+
+        </section>
+
+
+        <!-- CATALOGO -->
+        <section class="catalogo-productos" id="catalogo"></section>
+
+    </main>
+
+
+    <!-- MODAL: NUEVO / EDITAR PRODUCTO -->
+    <dialog class="modal" id="modal-producto" aria-labelledby="modal-producto-titulo">
+
+        <form id="form-producto" novalidate>
+
+            <div class="modal-titulo">
+                <p>PRODUCTO</p>
+                <h3 id="modal-producto-titulo">Nuevo producto</h3>
+            </div>
+
+            <label for="prod-nombre">Nombre</label>
+            <input type="text" id="prod-nombre" name="nombre" maxlength="60"
+                   placeholder="Ej: Cajas de cartón">
+
+            <label for="prod-categoria">Categoría</label>
+            <input type="text" id="prod-categoria" name="categoria" maxlength="30"
+                   list="lista-categorias" placeholder="Selecciona o escribe una">
+            <datalist id="lista-categorias"></datalist>
+
+            <div class="modal-fila">
+
+                <div>
+                    <label for="prod-minimo">Stock mínimo</label>
+                    <input type="number" id="prod-minimo" name="minimo"
+                           min="0" step="1" value="10">
+                </div>
+
+                <div id="campo-stock-inicial">
+                    <label for="prod-stock">Stock inicial</label>
+                    <input type="number" id="prod-stock" name="stockInicial"
+                           min="0" step="1" value="0">
+                </div>
+
+            </div>
+
+            <p class="mensaje-error" id="error-producto" role="alert"></p>
+
+            <div class="modal-acciones">
+                <button type="button" class="btn-secundario" data-cerrar>Cancelar</button>
+                <button type="submit" class="btn-primario">Guardar</button>
+            </div>
+
+        </form>
+
+    </dialog>
+
+
+    <!-- MODAL: DETALLE DEL PRODUCTO -->
+    <dialog class="modal" id="modal-detalle" aria-labelledby="det-nombre">
+
+        <div class="modal-titulo">
+            <p id="det-codigo"></p>
+            <h3 id="det-nombre"></h3>
+        </div>
+
+        <dl class="detalle-datos">
+            <div><dt>Categoría</dt><dd id="det-categoria"></dd></div>
+            <div><dt>Stock</dt><dd id="det-stock"></dd></div>
+            <div><dt>Stock mínimo</dt><dd id="det-minimo"></dd></div>
+            <div><dt>Estado</dt><dd id="det-estado"></dd></div>
+        </dl>
+
+        <h4 class="detalle-subtitulo">Últimos movimientos</h4>
+
+        <ul class="detalle-movimientos" id="det-movimientos"></ul>
+
+        <p class="mensaje-error" id="error-detalle" role="alert"></p>
+
+        <div class="modal-acciones">
+            <button type="button" class="btn-peligro" id="btn-eliminar" data-solo-admin>Eliminar</button>
+            <button type="button" class="btn-secundario" id="btn-editar" data-solo-admin>Editar</button>
+            <button type="button" class="btn-primario" data-cerrar>Cerrar</button>
+        </div>
+
+    </dialog>
+
+
+    <!-- PIE DE PAGINA -->
+    <footer>
+
+        <p class="footer-logo">LogiCore</p>
+
+        <nav class="footer-menu" aria-label="Navegacion del pie de pagina">
+            <ul>
+                <li><a href="ayuda.html#ayuda">Ayuda</a></li>
+                <li><a href="ayuda.html#informacion">Información</a></li>
+                <li><a href="ayuda.html#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+
+    </footer>
+
+</body>
+
+</html>
