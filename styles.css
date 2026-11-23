@@ -860,6 +860,71 @@ footer {
     background-color: var(--peligro-suave);
 }
 
+/* Motivos de salida */
+.tipo-mov.cambio {
+    color: #6d28d9;
+    background-color: #f1ebfe;
+}
+
+.tipo-mov.vencimiento {
+    color: var(--alerta);
+    background-color: var(--alerta-suave);
+}
+
+/* Motivos de entrada */
+.tipo-mov.devolucion {
+    color: #0f766e;
+    background-color: #dff5f1;
+}
+
+.tipo-mov.garantia {
+    color: #6d28d9;
+    background-color: #f1ebfe;
+}
+
+.tipo-mov.ajuste {
+    color: var(--texto-suave);
+    background-color: var(--borde-suave);
+}
+
+/* Etiquetas pequeñas: garantía, vence, vencido, por vencer */
+.marca {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: bold;
+    white-space: nowrap;
+    color: var(--texto-suave);
+    background-color: var(--borde-suave);
+}
+
+.marca.garantia {
+    color: #6d28d9;
+    background-color: #f1ebfe;
+}
+
+.marca.vence,
+.marca.por_vencer {
+    color: var(--alerta);
+    background-color: var(--alerta-suave);
+}
+
+.marca.vencido {
+    color: var(--peligro);
+    background-color: var(--peligro-suave);
+}
+
+.marca.vigente {
+    color: var(--primario);
+    background-color: var(--primario-suave);
+}
+
+.texto-suave {
+    color: var(--texto-suave);
+    font-size: 11px;
+}
+
 .positivo {
     color: var(--primario) !important;
 }
@@ -990,4 +1055,28 @@ input[type="date"] {
 
 input[type="date"]::-webkit-date-and-time-value {
     text-align: left;
+}
+
+/* Enlace al kardex (trazabilidad) desde el nombre del producto */
+.enlace-kardex {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dashed var(--borde);
+}
+
+.enlace-kardex:hover {
+    color: var(--primario);
+    border-bottom-color: var(--primario);
+}
+
+.opcional {
+    font-weight: normal;
+    color: var(--texto-suave);
+    font-size: 11px;
+}
+
+a.btn-kardex {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
 }

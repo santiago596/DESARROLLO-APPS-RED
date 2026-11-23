@@ -12,11 +12,11 @@
 
     <title>Entradas - LogiCore</title>
 
-    <link rel="stylesheet" href="styles.css?v=10">
-    <link rel="stylesheet" href="entradas.css?v=10">
+    <link rel="stylesheet" href="styles.css?v=16">
+    <link rel="stylesheet" href="entradas.css?v=16">
 
-    <script src="js/app.js?v=10" defer></script>
-    <script src="js/movimientos.js?v=10" defer></script>
+    <script src="js/app.js?v=16" defer></script>
+    <script src="js/movimientos.js?v=16" defer></script>
 
 </head>
 
@@ -59,8 +59,8 @@
                 <h2>Entradas</h2>
 
                 <span>
-                    Registra los productos que ingresan
-                    al almacén.
+                    Registra las compras, devoluciones de clientes,
+                    reposiciones por garantía y ajustes de inventario.
                 </span>
 
             </div>
@@ -103,18 +103,89 @@
                     <p class="ayuda-stock" id="ayuda-stock"></p>
 
 
+                    <fieldset class="motivos motivos-4">
+
+                        <legend>Motivo de la entrada</legend>
+
+                        <label class="motivo">
+                            <input type="radio" name="motivo" value="compra" checked>
+                            <span><strong>Compra</strong><small>A proveedor</small></span>
+                        </label>
+
+                        <label class="motivo">
+                            <input type="radio" name="motivo" value="devolucion">
+                            <span><strong>Devolución</strong><small>De cliente</small></span>
+                        </label>
+
+                        <label class="motivo">
+                            <input type="radio" name="motivo" value="garantia">
+                            <span><strong>Garantía</strong><small>Reposición</small></span>
+                        </label>
+
+                        <label class="motivo">
+                            <input type="radio" name="motivo" value="ajuste">
+                            <span><strong>Ajuste</strong><small>Conteo físico</small></span>
+                        </label>
+
+                    </fieldset>
+
+                    <p class="ayuda-motivo" id="ayuda-motivo"></p>
+
+
                     <div class="campos-fila">
 
                         <div>
-                            <label for="cantidad">Cantidad</label>
+                            <label for="cantidad" id="etiqueta-cantidad">Cantidad</label>
 
                             <input
                                 type="number"
                                 id="cantidad"
-                                min="1"
+                                min="0"
                                 step="1"
+                                inputmode="decimal"
                                 placeholder="Ej: 50"
                             >
+                        </div>
+
+                        <div>
+                            <label for="registrar-en">Registrar en</label>
+
+                            <select id="registrar-en">
+                                <option value="unidad">Unidades</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <p class="ayuda-conversion" id="ayuda-conversion"></p>
+
+                    <div class="campos-fila" id="campos-nueva-presentacion" hidden>
+
+                        <div>
+                            <label for="nueva-presentacion">Nueva presentación</label>
+
+                            <input type="text" id="nueva-presentacion" maxlength="40"
+                                   list="lista-presentaciones" placeholder="Ej: Caja, Bulto, Paquete">
+                            <datalist id="lista-presentaciones"></datalist>
+                        </div>
+
+                        <div>
+                            <label for="nuevo-contenido" id="etiqueta-nuevo-contenido">¿Cuánto trae cada una?</label>
+
+                            <input type="number" id="nuevo-contenido" min="0" inputmode="decimal" placeholder="Ej: 24">
+                        </div>
+
+                    </div>
+
+
+                    <div class="campos-fila">
+
+                        <div>
+                            <label for="bodega">Bodega donde se guarda</label>
+
+                            <select id="bodega">
+                                <option value="">Seleccionar bodega</option>
+                            </select>
                         </div>
 
                         <div>
@@ -129,13 +200,35 @@
                     </div>
 
 
-                    <label for="tercero">Proveedor</label>
+                    <div id="campo-vencimiento" hidden>
+
+                        <label for="vencimiento">Fecha de vencimiento del lote</label>
+
+                        <input
+                            type="date"
+                            id="vencimiento"
+                        >
+
+                    </div>
+
+
+                    <label for="tercero" id="etiqueta-tercero">Proveedor</label>
 
                     <input
                         type="text"
                         id="tercero"
                         maxlength="60"
                         placeholder="Nombre del proveedor"
+                    >
+
+
+                    <label for="documento">N.º de factura o remisión <span class="opcional">(trazabilidad)</span></label>
+
+                    <input
+                        type="text"
+                        id="documento"
+                        maxlength="40"
+                        placeholder="Ej: FV-1021"
                     >
 
 

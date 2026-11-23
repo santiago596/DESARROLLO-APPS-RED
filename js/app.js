@@ -237,6 +237,78 @@ const LC = (() => {
         return `${n} ${n === 1 ? 'unidad' : 'unidades'}`;
     }
 
+    // Unidad de venta: [singular, plural]
+    const ABREVIATURAS = {
+        und: ['unidad', 'unidades'], kg: ['kg', 'kg'], lb: ['lb', 'lb'], m: ['m', 'm'], gal: ['gal', 'gal']
+    };
+
+    // 2,5 / 1.250 / 15
+    function numero(n) {
+        return Number(n).toLocaleString('es-CO', { maximumFractionDigits: 2 });
+    }
+
+    // "3 unidades", "1 unidad", "2,5 kg", "40 m"
+    function cantidad(n, unidad = 'und') {
+        const [singular, plural] = ABREVIATURAS[unidad] || ABREVIATURAS.und;
+        return `${numero(n)} ${Number(n) === 1 ? singular : plural}`;
+    }
+
+    const MOTIVOS = {
+        compra: 'Compra', devolucion: 'Devolución', garantia: 'Garantía', ajuste: 'Ajuste',
+        venta: 'Venta', cambio: 'Cambio', vencimiento: 'Vencimiento'
+    };
+
+    // Texto y clase de la etiqueta de un movimiento (Compra, Devolución, Venta, Cambio...)
+    function etiquetaMovimiento(m) {
+        if (m.tipo === 'entrada') return { clase: `entrada ${m.motivo || ''}`, texto: MOTIVOS[m.motivo] || 'Entrada' };
+        return { clase: `salida ${m.motivo || ''}`, texto: MOTIVOS[m.motivo] || 'Salida' };
+    }
+
+    // caja -> cajas, galón -> galones, par -> pares
+    // En nombres de varias palabras solo cambia la primera: caja master -> cajas master
+    function plural(palabra, n) {
+        const [primera, ...resto] = palabra.toLowerCase().split(' ');
+        if (Number(n) === 1) return [primera, ...resto].join(' ');
+        const p = /ón$/.test(primera) ? primera.replace(/ón$/, 'ones')
+            : /[aeiouáéí]$/.test(primera) ? primera + 's' : primera + 'es';
+        return [p, ...resto].join(' ');
+    }
+
+    // Cantidad de un movimiento: "24 unidades" o "2 paquetes (24 unidades)"
+    function cantidadMovimiento(m) {
+        const base = cantidad(m.cantidad, m.unidad);
+        if (!m.empaques) return base;
+        return `${numero(m.empaques)} ${plural(m.presentacion, m.empaques)} (${base})`;
+    }
+
+    // Existencias expresadas en empaques, del mas grande al mas pequeño:
+    // 41,25 kg -> "1 bulto + 3 cajas + 1,25 kg"
+    function enPresentaciones(n, p) {
+        const empaques = [...(p?.presentaciones || [])].sort((a, b) => b.contenido - a.contenido);
+        let resto = Math.round(n * 100);
+        const partes = [];
+
+        empaques.forEach(e => {
+            const contenido = Math.round(e.contenido * 100);
+            const cuantas = Math.floor(resto / contenido);
+            if (cuantas > 0) {
+                partes.push(`${cuantas} ${plural(e.nombre, cuantas)}`);
+                resto -= cuantas * contenido;
+            }
+        });
+
+        if (!partes.length) return '';
+        if (resto > 0) partes.push(cantidad(resto / 100, p.unidad));
+        return partes.join(' + ');
+    }
+
+    // "Vencido hace 3 días", "Vence hoy", "Vence en 12 días"
+    function textoVencimiento(dias) {
+        if (dias < 0) return `Vencido hace ${-dias} ${dias === -1 ? 'día' : 'días'}`;
+        if (dias === 0) return 'Vence hoy';
+        return `Vence en ${dias} ${dias === 1 ? 'día' : 'días'}`;
+    }
+
     function notificar(mensaje, tipo = 'exito') {
         const aviso = document.createElement('div');
         aviso.className = `toast ${tipo}`;
@@ -256,6 +328,13 @@ const LC = (() => {
         resumen: () => api('resumen'),
         productos: () => api('productos'),
         categorias: () => api('categorias'),
+        opciones: () => api('opciones'),
+        bodegas: () => api('bodegas'),
+        vencimientos: () => api('vencimientos'),
+        kardex: filtros => api('kardex', { params: filtros }),
+        crearBodega: nombre => api('crear_bodega', { datos: { nombre } }),
+        actualizarBodega: (id, nombre) => api('actualizar_bodega', { datos: { id, nombre } }),
+        eliminarBodega: id => api('eliminar_bodega', { datos: { id } }),
         movimientos: filtros => api('movimientos', { params: filtros }),
         reporte: filtros => api('reporte', { params: filtros }),
         descargarExcel,
@@ -265,7 +344,9 @@ const LC = (() => {
         actualizarProducto: (codigo, datos) => api('actualizar_producto', { datos: { ...datos, codigo } }),
         eliminarProducto: codigo => api('eliminar_producto', { datos: { codigo } }),
 
-        hoy, esc, formatoFecha, unidades, notificar
+        hoy, esc, formatoFecha, unidades, numero, cantidad, etiquetaMovimiento,
+        cantidadMovimiento, enPresentaciones, plural,
+        textoVencimiento, notificar
     };
 
 })();

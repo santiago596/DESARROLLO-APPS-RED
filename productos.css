@@ -398,3 +398,212 @@
 .detalle-movimientos strong.salida {
     color: var(--peligro);
 }
+
+.detalle-movimientos li {
+    align-items: center;
+    gap: 10px;
+}
+
+.detalle-movimientos li .marca,
+.detalle-movimientos li .tipo-mov {
+    margin-right: 4px;
+}
+
+.detalle-movimientos li strong {
+    white-space: nowrap;
+}
+
+
+/* =====================================
+   FERRETERIA: marcas de garantia / vencimiento
+===================================== */
+
+.producto-marcas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+}
+
+.categoria {
+    line-height: 1.4;
+}
+
+
+/* FORMULARIO DEL PRODUCTO (mas campos) */
+
+#modal-producto,
+#modal-detalle {
+    width: min(560px, 94vw);
+    max-height: 92vh;
+    overflow-y: auto;
+}
+
+.modal select {
+    width: 100%;
+    border: 1px solid var(--borde);
+    padding: 9px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    outline: none;
+    background-color: #ffffff;
+    font-family: inherit;
+}
+
+.modal select:focus {
+    border-color: var(--primario);
+}
+
+.modal select:disabled,
+.modal input:disabled {
+    background-color: var(--fondo-suave);
+    color: var(--texto-suave);
+}
+
+.ayuda-campo {
+    display: block;
+    font-size: 11px;
+    color: var(--texto-suave);
+    margin: -8px 0 12px;
+}
+
+.etiqueta-campo {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--texto);
+    margin-bottom: 4px;
+}
+
+.modal label.casilla {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: normal;
+    border: 1px solid var(--borde);
+    padding: 9px;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.modal label.casilla input {
+    width: auto;
+    margin: 0;
+}
+
+.detalle-datos {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.modal textarea {
+    width: 100%;
+    border: 1px solid var(--borde);
+    padding: 9px;
+    font-size: 13px;
+    font-family: inherit;
+    margin-bottom: 12px;
+    outline: none;
+    resize: vertical;
+}
+
+.modal textarea:focus {
+    border-color: var(--primario);
+}
+
+.producto-descripcion {
+    font-size: 12px;
+    color: var(--texto-suave);
+    line-height: 1.4;
+    margin-top: 6px;
+}
+
+.producto-equivale {
+    font-size: 11px;
+    color: var(--texto-suave);
+    text-align: right;
+    margin: -8px 0 10px;
+}
+
+.detalle-descripcion {
+    font-size: 13px;
+    color: var(--texto-suave);
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.detalle-descripcion:empty {
+    display: none;
+}
+
+
+/* PRESENTACIONES DE EMPAQUE (caja, bulto, paquete...) */
+
+.modal .empaques {
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    padding: 10px 12px 4px;
+    margin-bottom: 14px;
+}
+
+.modal .empaques legend {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--texto);
+    padding: 0 4px;
+}
+
+.modal .empaques > .ayuda-campo {
+    margin: 0 0 10px;
+}
+
+.empaque-fila {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) auto minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.modal .empaque-fila input {
+    margin-bottom: 0;
+}
+
+.empaque-signo,
+.empaque-unidad {
+    font-size: 12px;
+    color: var(--texto-suave);
+}
+
+.empaque-unidad {
+    min-width: 54px;
+}
+
+.empaque-quitar {
+    border: 1px solid var(--borde);
+    background-color: #ffffff;
+    color: var(--peligro);
+    width: 32px;
+    height: 34px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.empaque-quitar:hover {
+    background-color: var(--peligro-suave);
+}
+
+.btn-agregar-empaque {
+    border: 1px dashed var(--primario);
+    background-color: #ffffff;
+    color: var(--primario);
+    font-weight: bold;
+    font-size: 12px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+.btn-agregar-empaque:hover {
+    background-color: var(--primario-suave);
+}

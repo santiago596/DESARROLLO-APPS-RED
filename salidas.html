@@ -12,11 +12,11 @@
 
     <title>Salidas - LogiCore</title>
 
-    <link rel="stylesheet" href="styles.css?v=10">
-    <link rel="stylesheet" href="entradas.css?v=10">
+    <link rel="stylesheet" href="styles.css?v=16">
+    <link rel="stylesheet" href="entradas.css?v=16">
 
-    <script src="js/app.js?v=10" defer></script>
-    <script src="js/movimientos.js?v=10" defer></script>
+    <script src="js/app.js?v=16" defer></script>
+    <script src="js/movimientos.js?v=16" defer></script>
 
 </head>
 
@@ -59,8 +59,8 @@
                 <h2>Salidas</h2>
 
                 <span>
-                    Registra los productos que salen
-                    del almacén.
+                    Registra las ventas, los cambios por garantía
+                    y las bajas por vencimiento.
                 </span>
 
             </div>
@@ -103,18 +103,84 @@
                     <p class="ayuda-stock" id="ayuda-stock"></p>
 
 
+                    <fieldset class="motivos">
+
+                        <legend>Motivo de la salida</legend>
+
+                        <label class="motivo">
+                            <input type="radio" name="motivo" value="venta" checked>
+                            <span><strong>Venta</strong><small>Se vende al cliente</small></span>
+                        </label>
+
+                        <label class="motivo">
+                            <input type="radio" name="motivo" value="cambio">
+                            <span><strong>Cambio</strong><small>Por garantía</small></span>
+                        </label>
+
+                        <label class="motivo">
+                            <input type="radio" name="motivo" value="vencimiento">
+                            <span><strong>Vencimiento</strong><small>Baja de vencidos</small></span>
+                        </label>
+
+                    </fieldset>
+
+                    <p class="ayuda-motivo" id="ayuda-motivo"></p>
+
+
                     <div class="campos-fila">
 
                         <div>
-                            <label for="cantidad">Cantidad</label>
+                            <label for="cantidad" id="etiqueta-cantidad">Cantidad</label>
 
                             <input
                                 type="number"
                                 id="cantidad"
-                                min="1"
+                                min="0"
                                 step="1"
+                                inputmode="decimal"
                                 placeholder="Ej: 10"
                             >
+                        </div>
+
+                        <div>
+                            <label for="registrar-en">Registrar en</label>
+
+                            <select id="registrar-en">
+                                <option value="unidad">Unidades</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <p class="ayuda-conversion" id="ayuda-conversion"></p>
+
+                    <div class="campos-fila" id="campos-nueva-presentacion" hidden>
+
+                        <div>
+                            <label for="nueva-presentacion">Nueva presentación</label>
+
+                            <input type="text" id="nueva-presentacion" maxlength="40"
+                                   list="lista-presentaciones" placeholder="Ej: Caja, Bulto, Paquete">
+                            <datalist id="lista-presentaciones"></datalist>
+                        </div>
+
+                        <div>
+                            <label for="nuevo-contenido" id="etiqueta-nuevo-contenido">¿Cuánto trae cada una?</label>
+
+                            <input type="number" id="nuevo-contenido" min="0" inputmode="decimal" placeholder="Ej: 24">
+                        </div>
+
+                    </div>
+
+
+                    <div class="campos-fila">
+
+                        <div>
+                            <label for="bodega">Bodega</label>
+
+                            <select id="bodega">
+                                <option value="">Seleccionar bodega</option>
+                            </select>
                         </div>
 
                         <div>
@@ -129,13 +195,23 @@
                     </div>
 
 
-                    <label for="tercero">Destino / responsable</label>
+                    <label for="tercero" id="etiqueta-tercero">Cliente</label>
 
                     <input
                         type="text"
                         id="tercero"
                         maxlength="60"
-                        placeholder="Ej: Área de despacho"
+                        placeholder="Ej: Cliente mostrador"
+                    >
+
+
+                    <label for="documento">N.º de factura o ticket <span class="opcional">(trazabilidad)</span></label>
+
+                    <input
+                        type="text"
+                        id="documento"
+                        maxlength="40"
+                        placeholder="Ej: POS-889"
                     >
 
 

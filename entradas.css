@@ -502,3 +502,151 @@
 .salidas .entrada-cantidad {
     color: var(--peligro);
 }
+
+.entrada-info strong .tipo-mov {
+    margin-left: 6px;
+    vertical-align: middle;
+    font-size: 10px;
+}
+
+.entrada-cantidad {
+    white-space: nowrap;
+}
+
+
+/* =====================================
+   MOTIVO DE LA SALIDA (venta, cambio, vencimiento)
+===================================== */
+
+.motivos {
+    border: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.motivos legend {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--texto);
+    margin-bottom: 5px;
+}
+
+.formulario-entrada .motivo {
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+}
+
+.formulario-entrada .motivo input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+}
+
+.motivo span {
+    display: block;
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    padding: 9px 10px;
+    background-color: #ffffff;
+    transition: border-color 0.15s, background-color 0.15s;
+}
+
+.motivo strong {
+    display: block;
+    font-size: 12px;
+}
+
+.motivo small {
+    display: block;
+    font-size: 11px;
+    font-weight: normal;
+    color: var(--texto-suave);
+    margin-top: 2px;
+}
+
+.motivo input:checked + span {
+    border-color: var(--peligro);
+    background-color: var(--peligro-suave);
+}
+
+.motivo input[value="cambio"]:checked + span {
+    border-color: #6d28d9;
+    background-color: #f1ebfe;
+}
+
+.motivo input[value="vencimiento"]:checked + span {
+    border-color: var(--alerta);
+    background-color: var(--alerta-suave);
+}
+
+.motivo input:focus-visible + span {
+    outline: 2px solid var(--primario);
+    outline-offset: 2px;
+}
+
+.motivo input:disabled + span {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background-color: var(--fondo-suave);
+}
+
+.ayuda-motivo {
+    font-size: 12px;
+    color: var(--texto-suave);
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.ayuda-motivo:empty,
+.ayuda-conversion:empty {
+    display: none;
+}
+
+.ayuda-conversion {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--primario);
+    margin: -8px 0 12px;
+}
+
+.formulario-entrada select:disabled {
+    background-color: var(--fondo-suave);
+    color: var(--texto-suave);
+}
+
+/* Entradas: 4 motivos */
+.motivos-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.entradas:not(.salidas) .motivo input:checked + span {
+    border-color: var(--primario);
+    background-color: var(--primario-suave);
+}
+
+.entradas:not(.salidas) .motivo input[value="garantia"]:checked + span {
+    border-color: #6d28d9;
+    background-color: #f1ebfe;
+}
+
+.entradas:not(.salidas) .motivo input[value="ajuste"]:checked + span {
+    border-color: var(--texto-suave);
+    background-color: var(--borde-suave);
+}
+
+@media (max-width: 1000px) {
+    .motivos-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 420px) {
+    .motivos {
+        grid-template-columns: 1fr;
+    }
+}

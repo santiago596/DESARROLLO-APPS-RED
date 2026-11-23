@@ -49,6 +49,10 @@ $acciones = [
     'resumen'              => ['GET',  fn() => resumen(), 'usuario'],
     'productos'            => ['GET',  fn() => listar_productos(), 'usuario'],
     'categorias'           => ['GET',  fn() => categorias(), 'usuario'],
+    'opciones'             => ['GET',  fn() => opciones(), 'usuario'],
+    'bodegas'              => ['GET',  fn() => listar_bodegas(), 'usuario'],
+    'vencimientos'         => ['GET',  fn() => vencimientos(), 'usuario'],
+    'kardex'               => ['GET',  fn() => kardex($_GET), 'usuario'],
     'movimientos'          => ['GET',  fn() => listar_movimientos($_GET), 'usuario'],
     'reporte'              => ['GET',  fn() => reporte($_GET), 'usuario'],
     'exportar_excel'       => ['GET',  fn() => excel_reporte($_GET, $usuario), 'usuario'],
@@ -57,6 +61,9 @@ $acciones = [
     'crear_producto'       => ['POST', fn() => crear_producto($datos, $usuario), 'admin'],
     'actualizar_producto'  => ['POST', fn() => actualizar_producto($datos), 'admin'],
     'eliminar_producto'    => ['POST', fn() => eliminar_producto($datos), 'admin'],
+    'crear_bodega'         => ['POST', fn() => crear_bodega($datos), 'admin'],
+    'actualizar_bodega'    => ['POST', fn() => actualizar_bodega($datos), 'admin'],
+    'eliminar_bodega'      => ['POST', fn() => eliminar_bodega($datos), 'admin'],
 ];
 
 $accion = $_GET['accion'] ?? '';
@@ -76,7 +83,7 @@ if ($permiso !== 'publico' && !$usuario) {
 }
 
 if ($permiso === 'admin' && !es_admin()) {
-    responder(403, ['ok' => false, 'error' => 'Solo un administrador puede gestionar productos.']);
+    responder(403, ['ok' => false, 'error' => 'Solo un administrador puede gestionar productos y bodegas.']);
 }
 
 try {

@@ -10,6 +10,8 @@
     const campoHasta = document.getElementById('filtro-hasta');
     const campoTipo = document.getElementById('filtro-tipo');
     const campoProducto = document.getElementById('filtro-producto');
+    const campoBodega = document.getElementById('filtro-bodega');
+    const campoDocumento = document.getElementById('filtro-documento');
     const errorFiltros = document.getElementById('error-filtros');
 
     let ultimoReporte = null;
@@ -24,15 +26,18 @@
             desde: campoDesde.value,
             hasta: campoHasta.value,
             tipo: campoTipo.value,
-            codigo: campoProducto.value
+            codigo: campoProducto.value,
+            bodega: campoBodega.value,
+            documento: campoDocumento.value.trim()
         };
     }
 
-    function textoPeriodo({ desde, hasta }) {
-        if (desde && hasta) return `Del ${LC.formatoFecha(desde)} al ${LC.formatoFecha(hasta)}.`;
-        if (desde) return `Desde el ${LC.formatoFecha(desde)}.`;
-        if (hasta) return `Hasta el ${LC.formatoFecha(hasta)}.`;
-        return 'Movimientos e inventario de todo el periodo.';
+    function textoPeriodo({ desde, hasta, documento }) {
+        let texto = 'Movimientos e inventario de todo el periodo.';
+        if (desde && hasta) texto = `Del ${LC.formatoFecha(desde)} al ${LC.formatoFecha(hasta)}.`;
+        else if (desde) texto = `Desde el ${LC.formatoFecha(desde)}.`;
+        else if (hasta) texto = `Hasta el ${LC.formatoFecha(hasta)}.`;
+        return documento ? `${texto} Documento: "${documento}".` : texto;
     }
 
 
@@ -59,28 +64,32 @@
 
         document.getElementById('periodo-reporte').textContent = textoPeriodo(filtros());
 
-        // Resumen
-        const balance = datos.unidadesEntrada - datos.unidadesSalida;
-        const campoBalance = document.getElementById('rep-balance');
-
+        // Resumen (cantidad de movimientos de cada clase en el periodo)
         document.getElementById('rep-movimientos').textContent = datos.movimientos.length;
-        document.getElementById('rep-entradas').textContent = `+${datos.unidadesEntrada}`;
-        document.getElementById('rep-salidas').textContent = `−${datos.unidadesSalida}`;
-        campoBalance.textContent = balance > 0 ? `+${balance}` : balance < 0 ? `−${-balance}` : '0';
-        campoBalance.className = balance > 0 ? 'positivo' : balance < 0 ? 'negativo' : '';
+        document.getElementById('rep-entradas').textContent = datos.conteo.entrada;
+        document.getElementById('rep-ventas').textContent = datos.conteo.venta;
+        document.getElementById('rep-cambios').textContent = datos.conteo.cambio;
+        document.getElementById('rep-bajas').textContent = datos.conteo.vencimiento;
 
-        // Por producto
+        // Por producto (cantidades en la unidad de cada producto)
+        const celda = (valor, signo, clase) => valor
+            ? `<td class="${clase}">${signo}${LC.numero(valor)}</td>`
+            : '<td>0</td>';
+
         document.getElementById('tabla-productos').innerHTML = datos.porProducto.length
             ? datos.porProducto.map(p => `
                 <tr>
                     <td>${LC.esc(p.codigo)}</td>
-                    <td>${LC.esc(p.nombre)}</td>
-                    <td class="positivo">${p.entradas ? '+' + p.entradas : '0'}</td>
-                    <td class="negativo">${p.salidas ? '−' + p.salidas : '0'}</td>
-                    <td>${p.stock}</td>
+                    <td><a class="enlace-kardex" href="kardex.html?codigo=${encodeURIComponent(p.codigo)}" title="Ver kardex y trazabilidad">${LC.esc(p.nombre)}</a></td>
+                    <td>${LC.esc(p.unidad_nombre)}</td>
+                    ${celda(p.entradas, '+', 'positivo')}
+                    ${celda(p.ventas, '−', 'negativo')}
+                    ${celda(p.cambios, '−', 'negativo')}
+                    ${celda(p.bajas, '−', 'negativo')}
+                    <td>${LC.numero(p.stock)}</td>
                     <td><span class="estado ${p.estado.clase}">${p.estado.texto}</span></td>
                 </tr>`).join('')
-            : '<tr><td colspan="6" class="vacio">No hay productos registrados.</td></tr>';
+            : '<tr><td colspan="9" class="vacio">No hay productos registrados.</td></tr>';
 
         // Reposicion
         document.getElementById('lista-reponer').innerHTML = datos.reponer.length
@@ -88,27 +97,45 @@
                 <li>
                     <div>
                         <strong>${LC.esc(p.nombre)}</strong>
-                        <span class="estado ${p.estado.clase}">${p.estado.texto} · ${p.stock} / mín. ${p.minimo}</span>
+                        <span class="estado ${p.estado.clase}">${p.estado.texto} · ${LC.numero(p.vendible)} / mín. ${LC.numero(p.minimo)}</span>
                     </div>
-                    <b>Pedir ${p.sugerido}</b>
+                    <b>Pedir ${LC.cantidad(p.sugerido, p.unidad)}</b>
                 </li>`).join('')
             : '<li class="vacio">Todo el inventario está sobre el mínimo.</li>';
 
+        // Vencimientos (estado actual de las bodegas, no depende del periodo)
+        document.getElementById('tabla-vencimientos').innerHTML = datos.vencimientos.length
+            ? datos.vencimientos.map(l => `
+                <tr>
+                    <td>${LC.esc(l.producto)}</td>
+                    <td>${LC.esc(l.bodega)}</td>
+                    <td>${LC.formatoFecha(l.vencimiento)}</td>
+                    <td><span class="marca ${l.estado_vencimiento}">${LC.textoVencimiento(l.dias)}</span></td>
+                    <td><strong>${LC.cantidad(l.cantidad, l.unidad)}</strong></td>
+                </tr>`).join('')
+            : '<tr><td colspan="5" class="vacio">No hay productos vencidos ni por vencer.</td></tr>';
+
         // Detalle
         document.getElementById('tabla-movimientos').innerHTML = datos.movimientos.length
-            ? datos.movimientos.map(m => `
+            ? datos.movimientos.map(m => {
+                const etiqueta = LC.etiquetaMovimiento(m);
+                const esEntrada = m.tipo === 'entrada';
+                return `
                 <tr>
                     <td>${LC.formatoFecha(m.fecha)}</td>
-                    <td><span class="tipo-mov ${m.tipo}">${m.tipo === 'entrada' ? 'Entrada' : 'Salida'}</span></td>
-                    <td>${LC.esc(m.producto)}</td>
-                    <td class="${m.tipo === 'entrada' ? 'positivo' : 'negativo'}">
-                        ${m.tipo === 'entrada' ? '+' : '−'}${m.cantidad}
+                    <td><span class="tipo-mov ${etiqueta.clase}">${etiqueta.texto}</span></td>
+                    <td><a class="enlace-kardex" href="kardex.html?codigo=${encodeURIComponent(m.codigo)}" title="Ver kardex y trazabilidad">${LC.esc(m.producto)}</a></td>
+                    <td class="${esEntrada ? 'positivo' : 'negativo'}">
+                        ${esEntrada ? '+' : '−'}${LC.esc(LC.cantidadMovimiento(m))}
                     </td>
                     <td>${LC.esc(m.tercero)}</td>
+                    <td>${LC.esc(m.documento) || "—"}</td>
+                    <td>${LC.esc(m.bodega)}</td>
                     <td>${LC.esc(m.usuario)}</td>
                     <td>${LC.esc(m.observaciones) || '—'}</td>
-                </tr>`).join('')
-            : '<tr><td colspan="7" class="vacio">No hay movimientos con estos filtros.</td></tr>';
+                </tr>`;
+            }).join('')
+            : '<tr><td colspan="9" class="vacio">No hay movimientos con estos filtros.</td></tr>';
     }
 
 
@@ -137,9 +164,16 @@
 
     /* EVENTOS */
 
-    [campoDesde, campoHasta, campoTipo, campoProducto].forEach(campo =>
+    [campoDesde, campoHasta, campoTipo, campoProducto, campoBodega].forEach(campo =>
         campo.addEventListener('change', pintar)
     );
+
+    // El numero de factura se busca mientras se escribe (con una pausa corta)
+    let esperaDocumento;
+    campoDocumento.addEventListener('input', () => {
+        clearTimeout(esperaDocumento);
+        esperaDocumento = setTimeout(pintar, 300);
+    });
 
     document.querySelectorAll('[data-dias]').forEach(boton =>
         boton.addEventListener('click', () => {
@@ -163,10 +197,13 @@
     /* CARGA INICIAL */
 
     LC.sesion
-        .then(() => LC.productos())
-        .then(productos => {
+        .then(() => Promise.all([LC.productos(), LC.bodegas()]))
+        .then(([productos, bodegas]) => {
             campoProducto.innerHTML += productos
                 .map(p => `<option value="${LC.esc(p.codigo)}">${LC.esc(p.codigo)} · ${LC.esc(p.nombre)}</option>`)
+                .join('');
+            campoBodega.innerHTML += bodegas
+                .map(b => `<option value="${b.id}">${LC.esc(b.nombre)}</option>`)
                 .join('');
         })
         .catch(error => LC.notificar(error.message, 'error'));

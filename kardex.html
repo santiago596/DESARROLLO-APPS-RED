@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es" class="cargando">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Kardex y trazabilidad de productos de LogiCore">
+
+    <title>Kardex - LogiCore</title>
+
+    <link rel="stylesheet" href="styles.css?v=16">
+    <link rel="stylesheet" href="inventario.css?v=16">
+    <link rel="stylesheet" href="reportes.css?v=16">
+    <link rel="stylesheet" href="kardex.css?v=16">
+
+    <script src="js/app.js?v=16" defer></script>
+    <script src="js/kardex.js?v=16" defer></script>
+</head>
+
+<body>
+
+    <!-- ENCABEZADO -->
+    <header class="encabezado">
+
+        <div class="logo">
+            <a href="index.html">
+                <h1>LOGICORE</h1>
+                <p>Sistema de Almacen y Bodega</p>
+            </a>
+        </div>
+
+        <nav class="menu" aria-label="Navegacion principal">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="inventario.html">Inventario</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="entradas.html">Entradas</a></li>
+                <li><a href="salidas.html">Salidas</a></li>
+                <li><a href="reportes.html">Reportes</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+
+    <!-- KARDEX -->
+    <main class="inventario kardex">
+
+        <section class="inventario-titulo">
+
+            <div>
+                <p>TRAZABILIDAD</p>
+
+                <h2>Kardex del producto</h2>
+
+                <span>
+                    Historial completo de un producto: cada entrada y salida,
+                    con su documento, lote, responsable y el saldo que dejó.
+                </span>
+            </div>
+
+            <div class="reportes-acciones">
+                <button type="button" class="btn-primario" id="btn-imprimir">
+                    Imprimir kardex
+                </button>
+            </div>
+
+        </section>
+
+
+        <!-- FILTROS -->
+        <form class="reportes-filtros kardex-filtros" id="form-kardex" novalidate>
+
+            <div class="kardex-producto">
+                <label for="kardex-producto">Producto</label>
+                <select id="kardex-producto">
+                    <option value="">Seleccionar producto</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="kardex-desde">Desde</label>
+                <input type="date" id="kardex-desde">
+            </div>
+
+            <div>
+                <label for="kardex-hasta">Hasta</label>
+                <input type="date" id="kardex-hasta">
+            </div>
+
+            <div>
+                <label for="kardex-bodega">Bodega</label>
+                <select id="kardex-bodega">
+                    <option value="">Todas las bodegas</option>
+                </select>
+            </div>
+
+            <div class="filtros-rapidos">
+                <button type="reset">Limpiar</button>
+            </div>
+
+            <p class="mensaje-error" id="error-kardex" role="alert"></p>
+
+        </form>
+
+
+        <!-- FICHA DEL PRODUCTO -->
+        <section class="kardex-ficha" id="kardex-ficha" hidden></section>
+
+
+        <!-- MOVIMIENTOS CON SALDO -->
+        <section class="inventario-tabla">
+
+            <div class="tabla-header">
+                <div>
+                    <p>MOVIMIENTOS</p>
+                    <h3>Kardex en orden de registro</h3>
+                </div>
+                <span class="texto-suave" id="kardex-totales"></span>
+            </div>
+
+            <div class="tabla-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N.º</th>
+                            <th>FECHA</th>
+                            <th>MOVIMIENTO</th>
+                            <th>DOCUMENTO</th>
+                            <th>PROVEEDOR / CLIENTE</th>
+                            <th>BODEGA</th>
+                            <th>LOTE</th>
+                            <th>ENTRADA</th>
+                            <th>SALIDA</th>
+                            <th>SALDO</th>
+                            <th>REGISTRÓ</th>
+                            <th>OBSERVACIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-kardex">
+                        <tr><td colspan="12" class="vacio">Selecciona un producto para ver su historial.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+
+        <!-- LOTES -->
+        <section class="inventario-tabla">
+
+            <div class="tabla-header">
+                <div>
+                    <p>LOTES</p>
+                    <h3>Lotes del producto y lo que se ha movido de cada uno</h3>
+                </div>
+            </div>
+
+            <div class="tabla-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>LOTE</th>
+                            <th>BODEGA</th>
+                            <th>VENCIMIENTO</th>
+                            <th>ENTRÓ</th>
+                            <th>SALIÓ</th>
+                            <th>QUEDA</th>
+                            <th>PRIMER / ÚLTIMO MOVIMIENTO</th>
+                            <th>ESTADO</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-lotes"></tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- PIE DE PAGINA -->
+    <footer>
+
+        <p class="footer-logo">LogiCore</p>
+
+        <nav class="footer-menu" aria-label="Navegacion del pie de pagina">
+            <ul>
+                <li><a href="ayuda.html#ayuda">Ayuda</a></li>
+                <li><a href="ayuda.html#informacion">Información</a></li>
+                <li><a href="ayuda.html#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+
+    </footer>
+
+</body>
+
+</html>

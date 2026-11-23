@@ -9,12 +9,12 @@
 
     <title>Reportes - LogiCore</title>
 
-    <link rel="stylesheet" href="styles.css?v=10">
-    <link rel="stylesheet" href="inventario.css?v=10">
-    <link rel="stylesheet" href="reportes.css?v=10">
+    <link rel="stylesheet" href="styles.css?v=16">
+    <link rel="stylesheet" href="inventario.css?v=16">
+    <link rel="stylesheet" href="reportes.css?v=16">
 
-    <script src="js/app.js?v=10" defer></script>
-    <script src="js/reportes.js?v=10" defer></script>
+    <script src="js/app.js?v=16" defer></script>
+    <script src="js/reportes.js?v=16" defer></script>
 </head>
 
 <body>
@@ -87,8 +87,22 @@
                 <label for="filtro-tipo">Tipo</label>
                 <select id="filtro-tipo">
                     <option value="">Entradas y salidas</option>
-                    <option value="entrada">Solo entradas</option>
-                    <option value="salida">Solo salidas</option>
+                    <option value="entrada">Todas las entradas</option>
+                    <option value="compra">Entradas por compra</option>
+                    <option value="devolucion">Entradas por devolución</option>
+                    <option value="garantia">Entradas por garantía</option>
+                    <option value="ajuste">Entradas por ajuste</option>
+                    <option value="salida">Todas las salidas</option>
+                    <option value="venta">Salidas por venta</option>
+                    <option value="cambio">Salidas por cambio</option>
+                    <option value="vencimiento">Salidas por vencimiento</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="filtro-bodega">Bodega</label>
+                <select id="filtro-bodega">
+                    <option value="">Todas las bodegas</option>
                 </select>
             </div>
 
@@ -97,6 +111,12 @@
                 <select id="filtro-producto">
                     <option value="">Todos los productos</option>
                 </select>
+            </div>
+
+            <div>
+                <label for="filtro-documento">N.º de factura</label>
+                <input type="search" id="filtro-documento" maxlength="40"
+                       placeholder="Ej: FV-1021" autocomplete="off">
             </div>
 
             <div class="filtros-rapidos">
@@ -120,21 +140,27 @@
             </article>
 
             <article>
-                <p>Unidades ingresadas</p>
+                <p>Entradas</p>
                 <strong id="rep-entradas" class="positivo">0</strong>
-                <span>Por entradas</span>
+                <span>Compras, devoluciones y ajustes</span>
             </article>
 
             <article>
-                <p>Unidades despachadas</p>
-                <strong id="rep-salidas" class="negativo">0</strong>
-                <span>Por salidas</span>
+                <p>Ventas</p>
+                <strong id="rep-ventas">0</strong>
+                <span>Salidas por venta</span>
             </article>
 
             <article>
-                <p>Balance neto</p>
-                <strong id="rep-balance">0</strong>
-                <span>Entradas menos salidas</span>
+                <p>Cambios</p>
+                <strong id="rep-cambios">0</strong>
+                <span>Por garantía</span>
+            </article>
+
+            <article>
+                <p>Bajas por vencimiento</p>
+                <strong id="rep-bajas" class="negativo">0</strong>
+                <span>Productos vencidos</span>
             </article>
 
         </section>
@@ -158,8 +184,11 @@
                             <tr>
                                 <th>CÓDIGO</th>
                                 <th>PRODUCTO</th>
+                                <th>UNIDAD</th>
                                 <th>ENTRADAS</th>
-                                <th>SALIDAS</th>
+                                <th>VENTAS</th>
+                                <th>CAMBIOS</th>
+                                <th>VENCIDOS</th>
                                 <th>STOCK ACTUAL</th>
                                 <th>ESTADO</th>
                             </tr>
@@ -192,6 +221,34 @@
         </div>
 
 
+        <!-- CONTROL DE VENCIMIENTOS -->
+        <section class="inventario-tabla">
+
+            <div class="tabla-header">
+                <div>
+                    <p>VENCIMIENTOS</p>
+                    <h3>Productos vencidos y por vencer</h3>
+                </div>
+            </div>
+
+            <div class="tabla-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>PRODUCTO</th>
+                            <th>BODEGA</th>
+                            <th>FECHA DE VENCIMIENTO</th>
+                            <th>ESTADO</th>
+                            <th>CANTIDAD</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-vencimientos"></tbody>
+                </table>
+            </div>
+
+        </section>
+
+
         <!-- DETALLE DE MOVIMIENTOS -->
         <section class="inventario-tabla">
 
@@ -210,7 +267,9 @@
                             <th>TIPO</th>
                             <th>PRODUCTO</th>
                             <th>CANTIDAD</th>
-                            <th>PROVEEDOR / DESTINO</th>
+                            <th>PROVEEDOR / CLIENTE</th>
+                            <th>DOCUMENTO</th>
+                            <th>BODEGA</th>
                             <th>USUARIO</th>
                             <th>OBSERVACIONES</th>
                         </tr>

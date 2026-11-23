@@ -28,6 +28,8 @@ const XL_GRIS = 'FF64748B';
 const XL_CEBRA = 'FFF8FAFC';
 const XL_TOTAL = 'FFE2E8F0';
 const XL_BORDE = 'FFD5DEE8';
+const XL_MORADO = 'FF6D28D9';
+const XL_MORADO_SUAVE = 'FFF1EBFE';
 
 function excel_estilos(): array
 {
@@ -40,6 +42,7 @@ function excel_estilos(): array
         'roja'    => '<font><b/><sz val="11"/><color rgb="' . XL_ROJO . '"/><name val="Calibri"/></font>',
         'ambar'   => '<font><b/><sz val="11"/><color rgb="' . XL_AMBAR . '"/><name val="Calibri"/></font>',
         'negrita' => '<font><b/><sz val="11"/><color rgb="' . XL_TEXTO . '"/><name val="Calibri"/></font>',
+        'morada'  => '<font><b/><sz val="11"/><color rgb="' . XL_MORADO . '"/><name val="Calibri"/></font>',
     ];
 
     $relleno = fn($color) => '<fill><patternFill patternType="solid"><fgColor rgb="' . $color . '"/><bgColor indexed="64"/></patternFill></fill>';
@@ -55,6 +58,7 @@ function excel_estilos(): array
         'rojo_s'  => $relleno(XL_ROJO_SUAVE),
         'ambar_s' => $relleno(XL_AMBAR_SUAVE),
         'total'   => $relleno(XL_TOTAL),
+        'morado_s' => $relleno(XL_MORADO_SUAVE),
     ];
 
     $lado = fn($nombre) => '<' . $nombre . ' style="thin"><color rgb="' . XL_BORDE . '"/></' . $nombre . '>';
@@ -67,8 +71,9 @@ function excel_estilos(): array
     // Formatos de numero propios (desde el 164)
     $formatos = [
         164 => 'dd/mm/yyyy',
-        165 => '+#,##0;-#,##0;0',
-        166 => '#,##0',
+        // General muestra enteros sin decimales y 2,5 kg con su decimal
+        165 => '+General;-General;0',
+        166 => 'General',
     ];
 
     $estilos = [];
@@ -114,6 +119,10 @@ function excel_estilos(): array
     $agregar('bajo', 'ambar', 'ambar_s', 'fino', 0, 'center');
     $agregar('agotado', 'roja', 'rojo_s', 'fino', 0, 'center');
     $agregar('pedir', 'ambar', 'ambar_s', 'fino', 166, 'center');
+    $agregar('cambio', 'morada', 'morado_s', 'fino', 0, 'center');
+    $agregar('vencimiento', 'ambar', 'ambar_s', 'fino', 0, 'center');
+    $agregar('vencido', 'roja', 'rojo_s', 'fino', 0, 'center');
+    $agregar('por_vencer', 'ambar', 'ambar_s', 'fino', 0, 'center');
 
     $agregar('total_texto', 'negrita', 'total', 'fino');
     $agregar('total_numero', 'negrita', 'total', 'fino', 166, 'center');
@@ -240,22 +249,30 @@ function excel_reporte(array $filtros, array $usuario): array
         $periodo = 'Todo el historial';
     }
 
+    $documento = texto($filtros['documento'] ?? '');
+    if ($documento !== '') {
+        $periodo .= '   |   Documento: ' . $documento;
+    }
+
     $subtitulo = 'Periodo: ' . $periodo . '   |   Generado el ' . date('d/m/Y H:i') . ' por ' . $usuario['nombre'];
-    $balance = $datos['unidadesEntrada'] - $datos['unidadesSalida'];
+    $conteo = $datos['conteo'];
+    $nombresUnidad = array_map(fn($u) => $u[0], UNIDADES);
 
 
     /* HOJA 1: MOVIMIENTOS */
 
-    $titulos = ['Fecha', 'Tipo', 'Código', 'Producto', 'Cantidad', 'Proveedor / Destino', 'Usuario', 'Observaciones'];
+    $titulos = ['Fecha', 'Tipo', 'Motivo', 'Código', 'Producto', 'Cantidad', 'Unidad', 'Registrado en', 'Proveedor / Cliente', 'Documento', 'Bodega', 'Usuario', 'Observaciones'];
 
     $filas = [
-        1 => ['alto' => 32, 'celdas' => array_merge([['LOGICORE  ·  Reporte de movimientos', 'titulo']], array_fill(0, 7, ['', 'titulo']))],
+        1 => ['alto' => 32, 'celdas' => array_merge([['LOGICORE  ·  Reporte de movimientos', 'titulo']], array_fill(0, 12, ['', 'titulo']))],
         2 => ['alto' => 20, 'celdas' => [[$subtitulo, 'subtitulo']]],
         3 => ['alto' => 22, 'celdas' => [
             ['Movimientos:', 'etiqueta'], [count($datos['movimientos']), 'dato'],
-            ['Ingresadas:', 'etiqueta'], [$datos['unidadesEntrada'], 'dato_mas'],
-            ['Despachadas:', 'etiqueta'], [-$datos['unidadesSalida'], 'dato_menos'],
-            ['Balance:', 'etiqueta'], [$balance, $balance < 0 ? 'dato_menos' : 'dato_mas'],
+            ['Entradas:', 'etiqueta'], [$conteo['entrada'], 'dato_mas'],
+            ['Devoluciones:', 'etiqueta'], [$conteo['devolucion'], 'dato'],
+            ['Ventas:', 'etiqueta'], [$conteo['venta'], 'dato'],
+            ['Cambios:', 'etiqueta'], [$conteo['cambio'], 'dato'],
+            ['Vencidos:', 'etiqueta'], [$conteo['vencimiento'], 'dato_menos'],
         ]],
         5 => ['alto' => 24, 'celdas' => array_map(fn($t) => [$t, 'encabezado'], $titulos)],
     ];
@@ -264,14 +281,25 @@ function excel_reporte(array $filtros, array $usuario): array
     foreach ($datos['movimientos'] as $i => $m) {
         $z = $i % 2 ? '_cebra' : '';
         $esEntrada = $m['tipo'] === 'entrada';
+        $etiqueta = MOTIVOS[$m['motivo']] ?? '';
+        $estiloTipo = $esEntrada ? 'entrada' : match ($m['motivo']) {
+            'cambio' => 'cambio',
+            'vencimiento' => 'vencimiento',
+            default => 'salida',
+        };
 
         $filas[$numero++] = ['celdas' => [
             [excel_fecha($m['fecha']), 'fecha' . $z],
             [$esEntrada ? 'Entrada' : 'Salida', $esEntrada ? 'entrada' : 'salida'],
+            [$etiqueta, $estiloTipo],
             [$m['codigo'], 'centro' . $z],
             [$m['producto'], 'texto' . $z],
             [$esEntrada ? $m['cantidad'] : -$m['cantidad'], ($esEntrada ? 'mas' : 'menos') . $z],
+            [$nombresUnidad[$m['unidad']] ?? $m['unidad'], 'centro' . $z],
+            [$m['empaques'] ? formato_numero($m['empaques']) . ' ' . $m['presentacion'] : '', 'centro' . $z],
             [$m['tercero'], 'texto' . $z],
+            [$m['documento'], 'centro' . $z],
+            [$m['bodega'], 'texto' . $z],
             [$m['usuario'], 'texto' . $z],
             [$m['observaciones'], 'texto' . $z],
         ]];
@@ -283,42 +311,42 @@ function excel_reporte(array $filtros, array $usuario): array
 
     $finHoja1 = max(5, $numero - 1);
 
-    $hoja1 = excel_hoja($filas, [13, 12, 10, 30, 12, 30, 22, 42], $estilos, [
+    $hoja1 = excel_hoja($filas, [13, 11, 22, 10, 30, 12, 12, 15, 26, 16, 18, 20, 40], $estilos, [
         'congelar' => 5,
-        'filtro' => 'A5:H' . $finHoja1,
-        'combinar' => ['A1:H1', 'A2:H2'],
+        'filtro' => 'A5:M' . $finHoja1,
+        'combinar' => ['A1:M1', 'A2:M2'],
     ]);
 
 
     /* HOJA 2: RESUMEN POR PRODUCTO */
 
-    $titulos2 = ['Código', 'Producto', 'Categoría', 'Entradas', 'Salidas', 'Stock actual', 'Stock mínimo', 'Estado', 'Pedido sugerido'];
+    $titulos2 = ['Código', 'Producto', 'Categoría', 'Presentación', 'Se vende por', 'Garantía (meses)',
+        'Entradas', 'Ventas', 'Cambios', 'Vencidos', 'Stock actual', 'Stock mínimo', 'Estado', 'Pedido sugerido'];
 
     $filas2 = [
-        1 => ['alto' => 32, 'celdas' => array_merge([['LOGICORE  ·  Resumen por producto', 'titulo']], array_fill(0, 8, ['', 'titulo']))],
-        2 => ['alto' => 20, 'celdas' => [[$subtitulo, 'subtitulo']]],
-        4 => ['alto' => 24, 'celdas' => array_map(fn($t) => [$t, 'encabezado'], $titulos2)],
+        1 => ['alto' => 32, 'celdas' => array_merge([['LOGICORE  ·  Resumen por producto', 'titulo']], array_fill(0, 13, ['', 'titulo']))],
+        2 => ['alto' => 20, 'celdas' => [[$subtitulo . '   |   Cantidades en la unidad de venta de cada producto', 'subtitulo']]],
+        4 => ['alto' => 30, 'celdas' => array_map(fn($t) => [$t, 'encabezado'], $titulos2)],
     ];
 
     $numero = 5;
-    $totales = ['entradas' => 0, 'salidas' => 0, 'stock' => 0, 'pedir' => 0];
 
     foreach ($datos['porProducto'] as $i => $p) {
         $z = $i % 2 ? '_cebra' : '';
         $clase = $p['estado']['clase'];
         $pedir = $clase === 'disponible' ? null : sugerencia_reposicion($p);
 
-        $totales['entradas'] += $p['entradas'];
-        $totales['salidas'] += $p['salidas'];
-        $totales['stock'] += $p['stock'];
-        $totales['pedir'] += $pedir ?? 0;
-
         $filas2[$numero++] = ['celdas' => [
             [$p['codigo'], 'centro' . $z],
             [$p['nombre'], 'texto' . $z],
             [$p['categoria'], 'texto' . $z],
+            [$p['presentacion_texto'], 'texto' . $z],
+            [$p['unidad_nombre'], 'centro' . $z],
+            [$p['garantia_meses'] ?: 'No', 'centro' . $z],
             [$p['entradas'], 'mas' . $z],
-            [-$p['salidas'], 'menos' . $z],
+            [-$p['ventas'], 'menos' . $z],
+            [-$p['cambios'], 'menos' . $z],
+            [-$p['bajas'], 'menos' . $z],
             [$p['stock'], 'numero' . $z],
             [$p['minimo'], 'numero' . $z],
             [$p['estado']['texto'], $clase],
@@ -326,19 +354,50 @@ function excel_reporte(array $filtros, array $usuario): array
         ]];
     }
 
-    $filas2[$numero] = ['alto' => 22, 'celdas' => [
-        ['TOTAL', 'total_texto'], ['', 'total_texto'], ['', 'total_texto'],
-        [$totales['entradas'], 'total_mas'],
-        [-$totales['salidas'], 'total_menos'],
-        [$totales['stock'], 'total_numero'],
-        ['', 'total_texto'], ['', 'total_texto'],
-        [$totales['pedir'], 'total_numero'],
-    ]];
+    $finHoja2 = max(4, $numero - 1);
 
-    $hoja2 = excel_hoja($filas2, [10, 30, 16, 12, 12, 14, 14, 14, 16], $estilos, [
+    $hoja2 = excel_hoja($filas2, [10, 30, 15, 22, 14, 12, 11, 11, 11, 11, 12, 12, 13, 14], $estilos, [
         'congelar' => 4,
-        'filtro' => 'A4:I' . ($numero - 1),
-        'combinar' => ['A1:I1', 'A2:I2'],
+        'filtro' => 'A4:N' . $finHoja2,
+        'combinar' => ['A1:N1', 'A2:N2'],
+    ]);
+
+
+    /* HOJA 3: VENCIMIENTOS (estado actual de las bodegas) */
+
+    $titulos3 = ['Producto', 'Bodega', 'Fecha de vencimiento', 'Estado', 'Días', 'Cantidad', 'Unidad'];
+
+    $filas3 = [
+        1 => ['alto' => 32, 'celdas' => array_merge([['LOGICORE  ·  Productos vencidos y por vencer', 'titulo']], array_fill(0, 6, ['', 'titulo']))],
+        2 => ['alto' => 20, 'celdas' => [['Lotes vencidos o que vencen en los próximos ' . DIAS_POR_VENCER .
+            ' días   |   Generado el ' . date('d/m/Y H:i'), 'subtitulo']]],
+        4 => ['alto' => 24, 'celdas' => array_map(fn($t) => [$t, 'encabezado'], $titulos3)],
+    ];
+
+    $numero = 5;
+
+    foreach ($datos['vencimientos'] as $i => $l) {
+        $z = $i % 2 ? '_cebra' : '';
+        $vencido = $l['estado_vencimiento'] === 'vencido';
+
+        $filas3[$numero++] = ['celdas' => [
+            [$l['producto'], 'texto' . $z],
+            [$l['bodega'], 'texto' . $z],
+            [excel_fecha($l['vencimiento']), 'fecha' . $z],
+            [$vencido ? 'Vencido' : 'Por vencer', $l['estado_vencimiento']],
+            [$l['dias'], ($vencido ? 'menos' : 'numero') . $z],
+            [$l['cantidad'], 'numero' . $z],
+            [$nombresUnidad[$l['unidad']] ?? $l['unidad'], 'centro' . $z],
+        ]];
+    }
+
+    if (!$datos['vencimientos']) {
+        $filas3[$numero++] = ['celdas' => [['No hay productos vencidos ni por vencer.', 'texto']]];
+    }
+
+    $hoja3 = excel_hoja($filas3, [32, 20, 20, 14, 10, 12, 14], $estilos, [
+        'congelar' => 4,
+        'combinar' => ['A1:G1', 'A2:G2'],
     ]);
 
 
@@ -349,11 +408,15 @@ function excel_reporte(array $filtros, array $usuario): array
         '<sheets>' .
         '<sheet name="Movimientos" sheetId="1" r:id="rId1"/>' .
         '<sheet name="Resumen por producto" sheetId="2" r:id="rId2"/>' .
+        '<sheet name="Vencimientos" sheetId="3" r:id="rId4"/>' .
         '</sheets>' .
         '<definedNames>' .
-        '<definedName name="_xlnm._FilterDatabase" localSheetId="0" hidden="1">Movimientos!$A$5:$H$' . $finHoja1 . '</definedName>' .
+        '<definedName name="_xlnm._FilterDatabase" localSheetId="0" hidden="1">Movimientos!$A$5:$M$' . $finHoja1 . '</definedName>' .
+        '<definedName name="_xlnm._FilterDatabase" localSheetId="1" hidden="1">\'Resumen por producto\'!$A$4:$N$' . $finHoja2 . '</definedName>' .
         '</definedNames>' .
         '</workbook>';
+
+    $hojaTipo = 'application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml';
 
     $archivos = [
         '[Content_Types].xml' => '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' .
@@ -361,8 +424,9 @@ function excel_reporte(array $filtros, array $usuario): array
             '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>' .
             '<Default Extension="xml" ContentType="application/xml"/>' .
             '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' .
-            '<Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>' .
-            '<Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>' .
+            '<Override PartName="/xl/worksheets/sheet1.xml" ContentType="' . $hojaTipo . '"/>' .
+            '<Override PartName="/xl/worksheets/sheet2.xml" ContentType="' . $hojaTipo . '"/>' .
+            '<Override PartName="/xl/worksheets/sheet3.xml" ContentType="' . $hojaTipo . '"/>' .
             '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' .
             '</Types>',
         '_rels/.rels' => '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' .
@@ -375,10 +439,12 @@ function excel_reporte(array $filtros, array $usuario): array
             '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>' .
             '<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/>' .
             '<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>' .
+            '<Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet3.xml"/>' .
             '</Relationships>',
         'xl/styles.xml' => $estilosXml,
         'xl/worksheets/sheet1.xml' => $hoja1,
         'xl/worksheets/sheet2.xml' => $hoja2,
+        'xl/worksheets/sheet3.xml' => $hoja3,
     ];
 
     return [

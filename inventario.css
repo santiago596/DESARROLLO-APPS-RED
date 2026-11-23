@@ -62,7 +62,7 @@
 
 .resumen-inventario {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 12px;
 
     margin-bottom: 16px;
@@ -245,4 +245,127 @@
 
 .inventario-tabla td.vacio {
     padding: 20px;
+}
+
+
+/* =====================================
+   FERRETERIA: bodegas, vencimientos, garantia
+===================================== */
+
+.inventario-acciones {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn-inventario.btn-secundario {
+    background-color: #ffffff;
+    color: var(--primario);
+    border: 2px solid var(--primario);
+    padding: 8px 13px;
+}
+
+.btn-inventario.btn-secundario:hover {
+    background-color: var(--primario-suave);
+}
+
+.bodegas-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.bodegas-lista:empty {
+    display: none;
+}
+
+.bodega-tarjeta {
+    background-color: #ffffff;
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    padding: 9px 14px;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--texto);
+}
+
+.bodega-tarjeta strong {
+    display: block;
+    font-size: 13px;
+}
+
+.bodega-tarjeta span {
+    font-size: 11px;
+    color: var(--texto-suave);
+}
+
+.bodega-tarjeta:hover,
+.bodega-tarjeta.activa {
+    border-color: var(--primario);
+    background-color: var(--primario-suave);
+}
+
+/* Tarjeta + boton de editar (solo administrador) */
+.bodega-item {
+    display: flex;
+}
+
+.bodega-item .bodega-tarjeta {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.bodega-editar {
+    background-color: #ffffff;
+    border: 1px solid var(--borde);
+    border-left: none;
+    border-radius: 0 var(--radio) var(--radio) 0;
+    padding: 0 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--texto-suave);
+}
+
+.bodega-editar:hover {
+    color: var(--primario);
+    background-color: var(--primario-suave);
+}
+
+.nota-bodega {
+    font-size: 12px;
+    color: var(--texto-suave);
+    margin-bottom: 10px;
+}
+
+.celda-bodegas {
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+.inventario-tabla td .marca + .marca {
+    margin-top: 4px;
+}
+
+.tabla-filtros {
+    flex-wrap: wrap;
+}
+
+@media (max-width: 700px) {
+
+    .inventario-acciones {
+        width: 100%;
+    }
+
+    .inventario-acciones > * {
+        flex: 1 1 140px;
+        text-align: center;
+    }
+
+    .tabla-filtros input {
+        width: 100%;
+    }
+
 }

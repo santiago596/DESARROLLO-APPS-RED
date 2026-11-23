@@ -11,10 +11,10 @@
 
     <title>LogiCore - Sistema de Almacen y Bodega</title>
 
-    <link rel="stylesheet" href="styles.css?v=10">
+    <link rel="stylesheet" href="styles.css?v=16">
 
-    <script src="js/app.js?v=10" defer></script>
-    <script src="js/inicio.js?v=10" defer></script>
+    <script src="js/app.js?v=16" defer></script>
+    <script src="js/inicio.js?v=16" defer></script>
 </head>
 
 <body>
@@ -56,8 +56,8 @@
                 <h2 id="bienvenida">BIENVENIDO A LOGICORE</h2>
 
                 <p class="descripcion">
-                    Sistema para gestionar y controlar
-                    la informacion de tu almacen.
+                    Inventario de la ferretería: existencias por bodega,
+                    ventas, cambios y control de vencimientos.
                 </p>
 
                 <div class="panel-acciones">
@@ -103,8 +103,9 @@
 
                 <ul>
                     <li>Productos registrados <strong id="dato-productos">0</strong></li>
-                    <li>Entradas <strong id="dato-entradas">0</strong></li>
-                    <li>Salidas <strong id="dato-salidas">0</strong></li>
+                    <li>Disponibles para venta <strong id="dato-disponibles">0</strong></li>
+                    <li>Bodegas <strong id="dato-bodegas">0</strong></li>
+                    <li>Compras recibidas <strong id="dato-compras">0</strong></li>
                 </ul>
 
             </article>
@@ -112,12 +113,13 @@
 
             <article class="tarjeta">
 
-                <h2>INFORMACION</h2>
+                <h2>SALIDAS</h2>
 
                 <ul>
-                    <li>Productos disponibles <strong id="dato-disponibles">0</strong></li>
-                    <li>Unidades en stock <strong id="dato-unidades">0</strong></li>
-                    <li>Último movimiento <strong id="dato-ultimo">-</strong></li>
+                    <li>Ventas <strong id="dato-ventas">0</strong></li>
+                    <li>Cambios por garantía <strong id="dato-cambios">0</strong></li>
+                    <li>Bajas por vencimiento <strong id="dato-bajas">0</strong></li>
+                    <li>Productos vencidos en bodega <strong id="dato-vencidos">0</strong></li>
                 </ul>
 
             </article>
@@ -150,7 +152,8 @@
                             <th>TIPO</th>
                             <th>PRODUCTO</th>
                             <th>CANTIDAD</th>
-                            <th>PROVEEDOR / DESTINO</th>
+                            <th>PROVEEDOR / CLIENTE</th>
+                            <th>BODEGA</th>
                             <th>STOCK ACTUAL</th>
                             <th>REGISTRADO POR</th>
                         </tr>

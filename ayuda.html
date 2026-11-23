@@ -9,11 +9,11 @@
 
     <title>Ayuda - LogiCore</title>
 
-    <link rel="stylesheet" href="styles.css?v=10">
-    <link rel="stylesheet" href="inventario.css?v=10">
-    <link rel="stylesheet" href="ayuda.css?v=10">
+    <link rel="stylesheet" href="styles.css?v=16">
+    <link rel="stylesheet" href="inventario.css?v=16">
+    <link rel="stylesheet" href="ayuda.css?v=16">
 
-    <script src="js/app.js?v=10" defer></script>
+    <script src="js/app.js?v=16" defer></script>
 </head>
 
 <body>
@@ -94,7 +94,7 @@
                         <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
                     </span>
                     <h4>Entradas</h4>
-                    <p>Registra la mercancía que llega: producto, cantidad, proveedor y fecha. La cantidad se <strong>suma</strong> al stock.</p>
+                    <p>Registra lo que llega con su motivo: <strong>compra</strong>, <strong>devolución</strong> de cliente, reposición por <strong>garantía</strong> o <strong>ajuste</strong>. Puedes registrar por cajas, bultos o paquetes: se convierten solos a unidades y se <strong>suman</strong> al stock.</p>
                     <span class="modulo-ir">Ir a Entradas →</span>
                 </a>
 
@@ -103,7 +103,7 @@
                         <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
                     </span>
                     <h4>Salidas</h4>
-                    <p>Registra la mercancía que sale. La cantidad se <strong>descuenta</strong> y nunca puede superar lo disponible.</p>
+                    <p>Registra cada salida con su motivo: <strong>venta</strong>, <strong>cambio</strong> por garantía o <strong>vencimiento</strong>. La cantidad se <strong>descuenta</strong> de la bodega elegida.</p>
                     <span class="modulo-ir">Ir a Salidas →</span>
                 </a>
 
@@ -112,7 +112,7 @@
                         <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
                     </span>
                     <h4>Reportes</h4>
-                    <p>Filtra por fecha, tipo o producto, revisa qué reponer y descarga el reporte en Excel o imprímelo.</p>
+                    <p>Filtra por fecha, motivo, bodega o producto; mira ventas, cambios y vencidos, qué reponer, y descarga el reporte en Excel o imprímelo.</p>
                     <span class="modulo-ir">Ir a Reportes →</span>
                 </a>
 
@@ -134,7 +134,37 @@
 
                         <details>
                             <summary>¿Por qué no me deja registrar una salida?</summary>
-                            <p>La cantidad es mayor al stock disponible. El sistema te muestra cuántas unidades hay; registra una salida igual o menor.</p>
+                            <p>La cantidad es mayor a lo disponible en esa bodega, o el motivo no aplica: solo se venden unidades <strong>no vencidas</strong>, el <strong>cambio</strong> solo se permite en productos con garantía y la salida por <strong>vencimiento</strong> solo saca unidades ya vencidas. El mensaje te dice cuánto hay y en qué bodega.</p>
+                        </details>
+
+                        <details>
+                            <summary>¿Cómo se manejan los productos que vencen?</summary>
+                            <p>Al crear el producto marca <strong>"Tiene fecha de vencimiento"</strong> (cemento, pinturas, pegantes). Cada entrada pide la fecha del lote. Al vender, sale primero lo que vence antes; lo vencido se ve en Inventario y Reportes y se da de baja con una salida por <strong>vencimiento</strong>.</p>
+                        </details>
+
+                        <details>
+                            <summary>¿Cómo sé de dónde salió o a dónde fue un producto? (trazabilidad)</summary>
+                            <p>Haz clic en el nombre del producto (en Inventario, Reportes o el historial) o usa <strong>"Ver kardex"</strong> en su detalle. El <strong>kardex</strong> muestra cada entrada y salida en orden, con su documento (factura, remisión o ticket), proveedor o cliente, bodega, lote, quién la registró y el saldo que dejó. Abajo verás cada lote con lo que entró, lo que salió y lo que queda.</p>
+                        </details>
+
+                        <details>
+                            <summary>¿Cómo encuentro todo lo que llegó o salió con una factura?</summary>
+                            <p>En <strong>Reportes</strong> escribe el número en <strong>"N.º de factura"</strong> (basta con una parte, por ejemplo <strong>1021</strong>). Verás solo los movimientos de ese documento y también puedes exportarlos a Excel.</p>
+                        </details>
+
+                        <details>
+                            <summary>¿Cómo cambio el nombre de una bodega o la elimino?</summary>
+                            <p>Solo el administrador. En <strong>Inventario</strong>, junto a cada bodega, haz clic en <strong>✎</strong>. Al renombrarla, el historial se actualiza con el nombre nuevo. Para eliminarla no debe tener existencias y debe quedar al menos otra bodega; los movimientos anteriores se conservan.</p>
+                        </details>
+
+                        <details>
+                            <summary>¿Cómo registro mercancía por cajas o bultos?</summary>
+                            <p>En el producto indica su presentación y cuánto trae (por ejemplo, <strong>Caja x 24 unidades</strong>). Al registrar una entrada o salida elige <strong>"Registrar en: cajas"</strong>: 3 cajas se guardan como 72 unidades y el historial muestra ambas cantidades.</p>
+                        </details>
+
+                        <details>
+                            <summary>¿Puedo vender por kilo, libra o metro?</summary>
+                            <p>Sí. En cada producto eliges cómo se vende: unidad, kilogramo, libra, metro o galón. Los productos por unidad solo aceptan cantidades enteras; los de peso o medida aceptan decimales (por ejemplo, 2,5 kg).</p>
                         </details>
 
                         <details>
@@ -144,7 +174,7 @@
 
                         <details>
                             <summary>¿Qué diferencia hay entre administrador y operario?</summary>
-                            <p>El <strong>administrador</strong> gestiona el catálogo de productos. El <strong>operario</strong> registra entradas y salidas y consulta la información.</p>
+                            <p>El <strong>administrador</strong> gestiona el catálogo de productos y las bodegas. El <strong>operario</strong> registra entradas y salidas y consulta la información.</p>
                         </details>
 
                         <details>
@@ -170,7 +200,7 @@
                         </li>
                         <li class="agotado">
                             <span class="estado agotado">Agotado</span>
-                            <p>No quedan unidades. No se pueden registrar salidas.</p>
+                            <p>No quedan unidades para vender (las vencidas no cuentan). Solo se puede dar de baja lo vencido.</p>
                         </li>
                     </ul>
                 </div>

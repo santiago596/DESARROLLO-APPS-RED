@@ -10,11 +10,11 @@
 
     <title>Productos - LogiCore</title>
 
-    <link rel="stylesheet" href="styles.css?v=10">
-    <link rel="stylesheet" href="productos.css?v=10">
+    <link rel="stylesheet" href="styles.css?v=16">
+    <link rel="stylesheet" href="productos.css?v=16">
 
-    <script src="js/app.js?v=10" defer></script>
-    <script src="js/productos.js?v=10" defer></script>
+    <script src="js/app.js?v=16" defer></script>
+    <script src="js/productos.js?v=16" defer></script>
 </head>
 
 <body>
@@ -56,8 +56,8 @@
                 <h2>Productos</h2>
 
                 <span>
-                    Consulta y administra los productos
-                    registrados en LogiCore.
+                    Catálogo de la ferretería: presentación, forma
+                    de venta, garantía y vencimiento de cada producto.
                 </span>
 
             </div>
@@ -77,7 +77,7 @@
             <input
                 type="search"
                 id="buscar-producto"
-                placeholder="Buscar por nombre o código..."
+                placeholder="Buscar por nombre, código o descripción..."
                 aria-label="Buscar producto"
             >
 
@@ -106,12 +106,70 @@
 
             <label for="prod-nombre">Nombre</label>
             <input type="text" id="prod-nombre" name="nombre" maxlength="60"
-                   placeholder="Ej: Cajas de cartón">
+                   placeholder="Ej: Tornillo drywall 6 x 1&quot;">
+
+            <label for="prod-descripcion">Descripción</label>
+            <textarea id="prod-descripcion" name="descripcion" maxlength="300" rows="2"
+                      placeholder="Material, medidas, marca, uso..."></textarea>
 
             <label for="prod-categoria">Categoría</label>
             <input type="text" id="prod-categoria" name="categoria" maxlength="30"
                    list="lista-categorias" placeholder="Selecciona o escribe una">
             <datalist id="lista-categorias"></datalist>
+
+            <div class="modal-fila">
+
+                <div>
+                    <label for="prod-unidad">Unidad de venta</label>
+                    <select id="prod-unidad" name="unidad"></select>
+                    <small class="ayuda-campo">La unidad más pequeña que se vende</small>
+                </div>
+
+                <div>
+                    <label for="prod-presentacion">¿Cómo viene cada unidad?</label>
+                    <input type="text" id="prod-presentacion" name="presentacion" maxlength="40"
+                           list="lista-presentaciones" placeholder="Ej: Unidad, Par, Bulto, Granel">
+                    <datalist id="lista-presentaciones"></datalist>
+                </div>
+
+            </div>
+
+            <fieldset class="empaques">
+
+                <legend>Presentaciones de empaque <span class="texto-suave">(opcional)</span></legend>
+
+                <p class="ayuda-campo">
+                    Agrega las cajas, bultos o paquetes en que también se vende o se recibe.
+                    En Entradas y Salidas podrás registrar por unidad o por cualquiera de ellas (o crear otra en ese momento).
+                </p>
+
+                <div id="lista-empaques"></div>
+
+                <button type="button" class="btn-agregar-empaque" id="btn-agregar-empaque">
+                    + Agregar presentación
+                </button>
+
+            </fieldset>
+
+            <div class="modal-fila">
+
+                <div>
+                    <label for="prod-garantia">Garantía (meses)</label>
+                    <input type="number" id="prod-garantia" name="garantia"
+                           min="0" max="120" step="1" value="0">
+                    <small class="ayuda-campo">0 = sin garantía (no admite cambios)</small>
+                </div>
+
+                <div>
+                    <span class="etiqueta-campo">Vencimiento</span>
+                    <label class="casilla" for="prod-vence">
+                        <input type="checkbox" id="prod-vence" name="vence">
+                        Tiene fecha de vencimiento
+                    </label>
+                    <small class="ayuda-campo">Ej: cemento, pinturas, pegantes</small>
+                </div>
+
+            </div>
 
             <div class="modal-fila">
 
@@ -125,6 +183,20 @@
                     <label for="prod-stock">Stock inicial</label>
                     <input type="number" id="prod-stock" name="stockInicial"
                            min="0" step="1" value="0">
+                </div>
+
+            </div>
+
+            <div class="modal-fila" id="campos-stock-inicial">
+
+                <div>
+                    <label for="prod-bodega">Bodega del stock inicial</label>
+                    <select id="prod-bodega" name="bodega"></select>
+                </div>
+
+                <div id="campo-vencimiento-inicial">
+                    <label for="prod-vencimiento">Vence el</label>
+                    <input type="date" id="prod-vencimiento" name="vencimiento">
                 </div>
 
             </div>
@@ -149,12 +221,22 @@
             <h3 id="det-nombre"></h3>
         </div>
 
+        <p class="detalle-descripcion" id="det-descripcion"></p>
+
         <dl class="detalle-datos">
             <div><dt>Categoría</dt><dd id="det-categoria"></dd></div>
-            <div><dt>Stock</dt><dd id="det-stock"></dd></div>
+            <div><dt>Presentación</dt><dd id="det-presentacion"></dd></div>
+            <div><dt>Se vende por</dt><dd id="det-unidad"></dd></div>
+            <div><dt>Garantía</dt><dd id="det-garantia"></dd></div>
+            <div><dt>Stock total</dt><dd id="det-stock"></dd></div>
+            <div><dt>Disponible para venta</dt><dd id="det-vendible"></dd></div>
             <div><dt>Stock mínimo</dt><dd id="det-minimo"></dd></div>
             <div><dt>Estado</dt><dd id="det-estado"></dd></div>
         </dl>
+
+        <h4 class="detalle-subtitulo">Existencias por bodega</h4>
+
+        <ul class="detalle-movimientos" id="det-lotes"></ul>
 
         <h4 class="detalle-subtitulo">Últimos movimientos</h4>
 
@@ -164,6 +246,7 @@
 
         <div class="modal-acciones">
             <button type="button" class="btn-peligro" id="btn-eliminar" data-solo-admin>Eliminar</button>
+            <a class="btn-secundario btn-kardex" id="btn-kardex" href="kardex.html">Ver kardex</a>
             <button type="button" class="btn-secundario" id="btn-editar" data-solo-admin>Editar</button>
             <button type="button" class="btn-primario" data-cerrar>Cerrar</button>
         </div>

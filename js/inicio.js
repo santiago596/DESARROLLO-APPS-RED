@@ -22,29 +22,51 @@
     document.getElementById('bienvenida').textContent =
         `BIENVENIDO, ${usuario.nombre.toUpperCase()}`;
 
-    document.getElementById('dato-productos').textContent = resumen.productos;
-    document.getElementById('dato-entradas').textContent = resumen.entradas;
-    document.getElementById('dato-salidas').textContent = resumen.salidas;
-    document.getElementById('dato-disponibles').textContent = resumen.disponibles;
-    document.getElementById('dato-unidades').textContent = resumen.unidades;
+    const datos = {
+        'dato-productos': resumen.productos,
+        'dato-disponibles': resumen.disponibles,
+        'dato-bodegas': resumen.bodegas,
+        'dato-compras': resumen.compras,
+        'dato-ventas': resumen.ventas,
+        'dato-cambios': resumen.cambios,
+        'dato-bajas': resumen.bajas,
+        'dato-vencidos': resumen.vencidos
+    };
 
-    const ultimo = resumen.ultimo;
-    document.getElementById('dato-ultimo').textContent = ultimo
-        ? `${ultimo.tipo === 'entrada' ? '+' : '−'}${ultimo.cantidad} ${ultimo.producto}`
-        : 'Sin movimientos';
+    Object.entries(datos).forEach(([id, valor]) => {
+        document.getElementById(id).textContent = valor;
+    });
 
 
-    /* ALERTAS: productos agotados o con stock bajo */
+    /* ALERTAS: vencidos, por vencer, agotados y stock bajo */
 
-    const alertas = productos
-        .filter(p => p.estado.clase !== 'disponible')
-        .sort((a, b) => a.stock - b.stock);
+    const alertas = [];
+
+    productos.forEach(p => {
+        if (p.vencidas > 0) {
+            alertas.push({ orden: 0, nombre: p.nombre, clase: 'agotado',
+                texto: `${LC.cantidad(p.vencidas, p.unidad)} vencidas` });
+        }
+
+        if (p.estado.clase !== 'disponible') {
+            alertas.push({ orden: p.estado.clase === 'agotado' ? 1 : 2, nombre: p.nombre, clase: p.estado.clase,
+                texto: `${p.estado.texto} · ${LC.cantidad(p.vendible, p.unidad)}` });
+        }
+
+        if (p.por_vencer > 0) {
+            const lote = p.lotes.find(l => l.estado_vencimiento === 'por_vencer');
+            alertas.push({ orden: 3, nombre: p.nombre, clase: 'bajo',
+                texto: `${LC.cantidad(p.por_vencer, p.unidad)} · ${LC.textoVencimiento(lote.dias).toLowerCase()}` });
+        }
+    });
+
+    alertas.sort((a, b) => a.orden - b.orden);
 
     document.getElementById('dato-alertas').textContent = alertas.length;
 
     document.getElementById('lista-alertas').innerHTML = alertas.length
-        ? alertas.map(p => `<li>${LC.esc(p.nombre)}
-            <span class="estado ${p.estado.clase}">${p.estado.texto} · ${p.stock}</span></li>`
+        ? alertas.map(a => `<li>${LC.esc(a.nombre)}
+            <span class="estado ${a.clase}">${a.texto}</span></li>`
         ).join('')
         : '<li>Sin alertas de inventario</li>';
 
@@ -54,17 +76,19 @@
     document.getElementById('tabla-recientes').innerHTML = recientes.length
         ? recientes.map(m => {
             const esEntrada = m.tipo === 'entrada';
+            const etiqueta = LC.etiquetaMovimiento(m);
             return `
                 <tr>
                     <td>${LC.formatoFecha(m.fecha)}</td>
-                    <td><span class="tipo-mov ${m.tipo}">${esEntrada ? 'Entrada' : 'Salida'}</span></td>
-                    <td>${LC.esc(m.producto)}</td>
-                    <td class="${esEntrada ? 'positivo' : 'negativo'}">${esEntrada ? '+' : '−'}${m.cantidad}</td>
+                    <td><span class="tipo-mov ${etiqueta.clase}">${etiqueta.texto}</span></td>
+                    <td><a class="enlace-kardex" href="kardex.html?codigo=${encodeURIComponent(m.codigo)}" title="Ver kardex y trazabilidad">${LC.esc(m.producto)}</a></td>
+                    <td class="${esEntrada ? 'positivo' : 'negativo'}">${esEntrada ? '+' : '−'}${LC.esc(LC.cantidadMovimiento(m))}</td>
                     <td>${LC.esc(m.tercero)}</td>
-                    <td>${m.stock_actual === null ? 'Eliminado' : LC.unidades(m.stock_actual)}</td>
+                    <td>${LC.esc(m.bodega)}</td>
+                    <td>${m.stock_actual === null ? 'Eliminado' : LC.cantidad(m.stock_actual, m.unidad)}</td>
                     <td>${LC.esc(m.usuario)}</td>
                 </tr>`;
         }).join('')
-        : '<tr><td colspan="7" class="vacio">Aún no hay movimientos registrados.</td></tr>';
+        : '<tr><td colspan="8" class="vacio">Aún no hay movimientos registrados.</td></tr>';
 
 })();

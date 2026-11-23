@@ -9,11 +9,11 @@
 
     <title>Inventario - LogiCore</title>
 
-    <link rel="stylesheet" href="styles.css?v=10">
-    <link rel="stylesheet" href="inventario.css?v=10">
+    <link rel="stylesheet" href="styles.css?v=16">
+    <link rel="stylesheet" href="inventario.css?v=16">
 
-    <script src="js/app.js?v=10" defer></script>
-    <script src="js/inventario.js?v=10" defer></script>
+    <script src="js/app.js?v=16" defer></script>
+    <script src="js/inventario.js?v=16" defer></script>
 </head>
 
 <body>
@@ -59,9 +59,14 @@
             </div>
 
 
-            <a href="productos.html#nuevo" class="btn-inventario" id="btn-registrar-producto" data-solo-admin>
-                + Registrar producto
-            </a>
+            <div class="inventario-acciones" data-solo-admin>
+                <button type="button" class="btn-inventario btn-secundario" id="btn-nueva-bodega">
+                    + Nueva bodega
+                </button>
+                <a href="productos.html#nuevo" class="btn-inventario" id="btn-registrar-producto">
+                    + Registrar producto
+                </a>
+            </div>
 
 
         </section>
@@ -91,10 +96,26 @@
             <article>
                 <p>Agotados</p>
                 <strong id="total-agotados">0</strong>
-                <span>Sin existencias</span>
+                <span>Sin existencias para venta</span>
+            </article>
+
+            <article>
+                <p>Con vencidos</p>
+                <strong id="total-vencidos" class="negativo">0</strong>
+                <span>Dar de baja en Salidas</span>
+            </article>
+
+            <article>
+                <p>Por vencer</p>
+                <strong id="total-por-vencer">0</strong>
+                <span id="texto-por-vencer">En los próximos 30 días</span>
             </article>
 
         </section>
+
+
+        <!-- BODEGAS -->
+        <section class="bodegas-lista" id="bodegas-lista" aria-label="Bodegas"></section>
 
 
         <!-- TABLA -->
@@ -116,11 +137,18 @@
                         aria-label="Buscar producto"
                     >
 
+                    <select id="filtro-bodega" aria-label="Filtrar por bodega">
+                        <option value="">Todas las bodegas</option>
+                    </select>
+
                     <select id="filtro-estado" aria-label="Filtrar por estado">
                         <option value="">Todos los estados</option>
                         <option value="disponible">Disponible</option>
                         <option value="bajo">Stock bajo</option>
                         <option value="agotado">Agotado</option>
+                        <option value="vencido">Con vencidos</option>
+                        <option value="por_vencer">Por vencer</option>
+                        <option value="garantia">Con garantía</option>
                     </select>
 
                 </div>
@@ -137,8 +165,12 @@
                             <th>CÓDIGO</th>
                             <th>PRODUCTO</th>
                             <th>CATEGORÍA</th>
-                            <th>CANTIDAD</th>
+                            <th>PRESENTACIÓN</th>
+                            <th id="th-cantidad">DISPONIBLE</th>
                             <th>MÍNIMO</th>
+                            <th>BODEGAS</th>
+                            <th>VENCIMIENTO</th>
+                            <th>GARANTÍA</th>
                             <th>ESTADO</th>
                         </tr>
                     </thead>
@@ -152,6 +184,38 @@
         </section>
 
     </main>
+
+
+    <!-- MODAL: NUEVA O EDITAR BODEGA (solo administrador) -->
+    <dialog class="modal" id="modal-bodega" aria-labelledby="modal-bodega-titulo">
+
+        <form id="form-bodega" novalidate>
+
+            <div class="modal-titulo">
+                <p>BODEGAS</p>
+                <h3 id="modal-bodega-titulo">Nueva bodega</h3>
+            </div>
+
+            <label for="bodega-nombre">Nombre</label>
+            <input type="text" id="bodega-nombre" name="nombre" maxlength="40"
+                   placeholder="Ej: Bodega sur, Patio de materiales">
+
+            <p class="nota-bodega" id="nota-bodega" hidden>
+                El nuevo nombre también se corrige en el historial de movimientos.
+                Solo se puede eliminar una bodega sin existencias.
+            </p>
+
+            <p class="mensaje-error" id="error-bodega" role="alert"></p>
+
+            <div class="modal-acciones">
+                <button type="button" class="btn-peligro" id="btn-eliminar-bodega" hidden>Eliminar</button>
+                <button type="button" class="btn-secundario" data-cerrar>Cancelar</button>
+                <button type="submit" class="btn-primario" id="btn-guardar-bodega">Crear bodega</button>
+            </div>
+
+        </form>
+
+    </dialog>
 
 
     <!-- PIE DE PAGINA -->
